@@ -4,8 +4,8 @@ public class produtor {
     int id;
 
     produtor(){
-        this.nome = "teste";
-        this.id = "0";
+        this.nome = "Test Producer";
+        this.id = 0;
     }
 
     produtor(String nome, int id){
@@ -15,7 +15,6 @@ public class produtor {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return ("O nome do produtor é" + this.nome + "e o seu ID é " + this.id + "\n");
     }
 
