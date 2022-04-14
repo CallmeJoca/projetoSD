@@ -4,8 +4,8 @@ import java.io.InputStreamReader;
 import java.rmi.Naming;
 import java.util.ArrayList;
 
-// classe inicial do cliente
-public class Cliente {
+// classe do produtor
+public class Produtor {
 	// ler uma String a partir do teclado
     public static String lerString () {
         String s = "";
@@ -30,13 +30,40 @@ public class Cliente {
     }
     
 	public static void main(String [] args) {
-		int opcao1 = -1, opcao2 = -1;
+		int opcao = -1;
 		ArrayList <String> topicos = new ArrayList <String> ();
 		ArrayList <String> noticias = new ArrayList <String> ();
 		
 		try {
 			// ligar o cliente Produtor ao servidor
 			InterfaceProdutor objetoServidor = (InterfaceProdutor) Naming.lookup("Servidor");
+			// menu de operações para o cliente PRODUTOR
+			do {
+				System.out.println("1 - Adicionar tópico\n2 - Consultar tópicos existentes\n3 - Inserir notícia\n4 - Consultar todas as notícias publicadas\n0 - Sair");
+				opcao = lerInteiro();
+				switch (opcao) {
+					case 1:
+						System.out.println("Introduza o tópico: ");
+						String topico1 = lerString();
+						objetoServidor.AdicionarTopico(topico1);
+						break;
+					case 2:
+						objetoServidor.ConsultarTopicos(topicos);
+						break;
+					case 3:
+						System.out.println("Introduza o tópico: ");
+						String topico2 = lerString();
+						objetoServidor.InserirNoticia(topico2);
+						break;
+					case 4:
+						objetoServidor.ConsultarNoticias(noticias);
+						break;
+					case 0:
+						break;
+					default:
+						System.out.println("Introduza um valor válido.");
+				}
+			} while (opcao != 0);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			// caso a ligação falhe, termina o programa
