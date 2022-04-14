@@ -15,10 +15,14 @@ public class Servidor {
 		}
     	try {
     		// instanciar objeto remoto do Produtor
-    		InterfaceProdutor objetoRemoto = new ImplementacaoProdutor();
-    		// registar o objeto remoto no Registry
-    		Naming.rebind("Servidor", objetoRemoto);
-    		System.out.println("Objeto remoto pronto.");
+    		InterfaceProdutor produtor = new ImplementacaoProdutor();
+    		InterfaceConsumidor consumidor = new ImplementacaoConsumidor();
+    		// registar o objeto remoto do produtor no Registry
+    		Naming.rebind("Produtor", produtor);
+    		System.out.println("Objeto remoto do Produtor pronto.");
+    		// registar o objeto remoto do cliente no Registry
+    		Naming.rebind("Consumidor", consumidor);
+    		System.out.println("Objeto remoto do Consumidor pronto.");
     	} catch (MalformedURLException | RemoteException e) {
     		System.out.println(e.getMessage());
     	}

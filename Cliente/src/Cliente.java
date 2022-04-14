@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
-import java.util.ArrayList;
 
 // classe inicial do cliente
 public class Cliente {
@@ -30,10 +29,6 @@ public class Cliente {
     }
     
 	public static void main(String [] args) {
-		int opcao1 = -1, opcao2 = -1;
-		ArrayList <String> topicos = new ArrayList <String> ();
-		ArrayList <String> noticias = new ArrayList <String> ();
-		
 		try {
 			// ligar o cliente Produtor ao servidor
 			InterfaceProdutor objetoServidor = (InterfaceProdutor) Naming.lookup("Servidor");

@@ -3,7 +3,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 // classe de implementação da interface do produtor
-public class ImplementacaoProdutor extends UnicastRemoteObject implements InterfaceProdutor {
+public class ImplementacaoProdutor extends UnicastRemoteObject implements InterfaceProdutor {	
 	public ImplementacaoProdutor() throws RemoteException {
 		// buscar os métodos da superclasse
 		super();
