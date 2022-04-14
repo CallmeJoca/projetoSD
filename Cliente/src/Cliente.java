@@ -5,7 +5,7 @@ import java.rmi.Naming;
 import java.util.ArrayList;
 
 // classe do produtor
-public class ClienteClasse {
+public class Cliente {
 	// ler uma String a partir do teclado
     public static String lerString () {
         String s = "";
@@ -36,7 +36,7 @@ public class ClienteClasse {
 		
 		try {
 			// ligar o cliente Produtor ao servidor
-			ClienteInterface objetoServidor = (ClienteInterface) Naming.lookup("Servidor");
+			Interface objetoServidor = (Interface) Naming.lookup("Servidor");
 			// verificar se o cliente é PRODUTOR ou CONSUMIDOR
 			System.out.println("1 - Produtor\n2 - Consumidor");
 			opcao1 = lerInteiro();

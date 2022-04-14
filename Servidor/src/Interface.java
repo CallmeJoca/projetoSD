@@ -3,7 +3,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 // interface do produtor
-public interface ClienteInterface extends Remote {
+public interface Interface extends Remote {
 	// métodos para o cliente Produtor
 	public void AdicionarTopico (String topico) throws RemoteException;
 	public void ConsultarTopicos (ArrayList <String> topicos) throws RemoteException;

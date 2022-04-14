@@ -15,7 +15,7 @@ public class Servidor {
 		}
     	try {
     		// instanciar objeto remoto do Produtor
-    		ClienteInterface objetoRemoto = new ClienteImplementacao();
+    		Interface objetoRemoto = new Implementacao();
     		// registar o objeto remoto no Registry
     		Naming.rebind("Servidor", objetoRemoto);
     		System.out.println("Objeto remoto pronto.");

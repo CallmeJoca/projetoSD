@@ -3,8 +3,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 // classe de implementação da interface do produtor
-public class ClienteImplementacao extends UnicastRemoteObject implements ClienteInterface {
-	public ClienteImplementacao() throws RemoteException {
+public class Implementacao extends UnicastRemoteObject implements Interface {
+	public Implementacao() throws RemoteException {
 		// buscar os métodos da superclasse
 		super();
 	}
