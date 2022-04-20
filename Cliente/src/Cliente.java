@@ -61,11 +61,17 @@ public class Cliente {
                 						// inserir uma notícia subordinada a um tópico
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						System.out.println(objetoServidor.InserirNoticia(topico, topicos, noticias));
+                						System.out.println(objetoServidor.InserirNoticia(topico, user.getNome(), topicos, noticias));
                 						break;
                 					case 4:
                 						// consultar todas as notícias publicadas até ao momento
-                						objetoServidor.ConsultarNoticias(noticias);
+                						ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
+                						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
+                						if (auxiliar == null) {
+                							System.out.println("O produtor ainda não tem notícias publicadas.");
+                						} else {
+                							System.out.println("Notícias publicadas:\n" + auxiliar);
+                						}
                 						break;
                 					case 0:
                 						// sair
