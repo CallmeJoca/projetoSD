@@ -26,29 +26,11 @@ public class Servidor {
 		while(true) {
 			try {
 				
-				
-	    		// instanciar objeto remoto do Produtor
-	    		InterfaceProdutor produtor = new ImplementacaoProdutor();
-	    		InterfaceConsumidor consumidor = new ImplementacaoConsumidor();
+	    		// instanciar objeto remoto
+				Interface cliente = new Implementacao();
 	    		
 	    		// call the daemon to generate the thread
-	    		
-	    		userThreads.add();
-	    		
-	    		
-	    		
-	    		// (move the lower code into the daemon)
-	    		
-	    		// registar o objeto remoto do produtor no Registry
-	    		Naming.rebind("Produtor", produtor);
-	    		System.out.println("Objeto remoto do Produtor pronto.");
-	    		
-	    		// registar o objeto remoto do consumidor no Registry
-	    		Naming.rebind("Consumidor", consumidor);
-	    		System.out.println("Objeto remoto do Consumidor pronto.");
-	    		
-	    		// 
-	    		
+	    		userThreads.add(cliente);
 	    		
 	    	} catch (MalformedURLException | RemoteException e) {
 	    		System.out.println(e.getMessage());
