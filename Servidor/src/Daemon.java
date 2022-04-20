@@ -5,6 +5,7 @@ public class Daemon extends Thread{
 	public Daemon() {
 		super();
 		
+		start();
 	}
 	
 	@Override
