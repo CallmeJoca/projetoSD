@@ -6,8 +6,9 @@ public class Cliente {
     public static void main(String [] args) {
         Utilizador user = new Utilizador();
         String topico;
-        int opcao = -1, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
+        int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
+        char [] texto = new char [180];
         ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 		ArrayList <String> topicos = new ArrayList <String> ();
 		ArrayList <Noticia> noticias = new ArrayList <Noticia> ();
@@ -16,7 +17,9 @@ public class Cliente {
 			// ligar o cliente ao servidor
 			Interface objetoServidor = (Interface) Naming.lookup("Servidor");
             // abrir os ficheiros de texto
-            Funcoes.abrirFicheiros(utilizadores, topicos, noticias);
+            utilizadores = Funcoes.abrirFicheiroUtilizadores(utilizadores);
+            topicos = Funcoes.abrirFicheiroTopicos(topicos);
+            noticias = Funcoes.abrirFicheiroNoticias(noticias);
             // iniciar cli com o utilizador
             System.out.println("Bem-vindo ao seu servidor de notícias.\n\nDeseja autenticar-se?\n1 - Sim\n2 - Não");
             while (true) {
@@ -28,7 +31,6 @@ public class Cliente {
                         opcao = Funcoes.lerInteiro();
                         if (opcao == 1) {
                             // login
-                        	// ESTA VERIFICAÇÃO NÃO ESTÁ A FUNCIONAR COMO DEVE SER
                         	while (verificacao == false) {
                                 verificacao = Funcoes.verificarUtilizador(utilizadores, user);
                             }
@@ -51,7 +53,7 @@ public class Cliente {
                 						// adicionar um tópico
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						System.out.println(objetoServidor.AdicionarTopico(topico, topicos));
+                						topicos = objetoServidor.AdicionarTopico(topico, topicos);
                 						break;
                 					case 2:
                 						// consultar a lista de tópicos disponíveis
@@ -59,9 +61,24 @@ public class Cliente {
                 						break;
                 					case 3:
                 						// inserir uma notícia subordinada a um tópico
+                						// tópico
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						System.out.println(objetoServidor.InserirNoticia(topico, user.getNome(), topicos, noticias));
+                						// dia da publicação
+                						System.out.println("Introduza o dia de publicação: ");
+                						diaPublicacao = Funcoes.lerInteiro();
+                						// mês da publicação
+                						System.out.println("Introduza o mês de publicação: ");
+                						mesPublicacao = Funcoes.lerInteiro();
+                						// ano da publicação
+                						System.out.println("Introduza o ano de publicação: ");
+                						anoPublicacao = Funcoes.lerInteiro();
+                						// corpo da notícia
+                						System.out.println("Introduza o texto da notícia: ");
+                						for (int i = 0; i < 180; i++) {
+                							texto[i] = Funcoes.lerCaratere();
+                						}
+                						System.out.println(objetoServidor.InserirNoticia(topico, user.getNome(), diaPublicacao, mesPublicacao, anoPublicacao, texto, topicos, noticias));
                 						break;
                 					case 4:
                 						// consultar todas as notícias publicadas até ao momento
