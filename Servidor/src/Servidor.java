@@ -19,6 +19,7 @@ public class Servidor {
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
 		}
+<<<<<<< HEAD
     	
     	// Create the list of threads where each client will be added
     	ArrayList<Daemon> userThreads = new ArrayList<Daemon>();
@@ -54,5 +55,16 @@ public class Servidor {
 	    		System.out.println(e.getMessage());
 	    	}
 		}
+=======
+    	try {
+    		// instanciar objeto remoto
+    		Interface servidor = new Implementacao();
+    		// registar o objeto remoto no Registry
+    		Naming.rebind("Servidor", servidor);
+    		System.out.println("Objeto remoto pronto.");
+    	} catch (MalformedURLException | RemoteException e) {
+    		System.out.println(e.getMessage());
+    	}
+>>>>>>> 0d737547e648515fccd7694734336c6050bffc7b
     }
 }
