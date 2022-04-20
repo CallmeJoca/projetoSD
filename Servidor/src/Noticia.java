@@ -15,6 +15,7 @@ public class Noticia implements Serializable {
         texto = new char [180];
         diaPublicacao = 0;
         mesPublicacao = 0;
+        anoPublicacao = 0;
     }
 
     public String getTopico() {

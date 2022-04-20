@@ -5,8 +5,8 @@ import java.util.ArrayList;
 // interface do servidor
 public interface Interface extends Remote {
 	// métodos para o cliente Produtor
-	public String AdicionarTopico (String topico, ArrayList <String> topicos) throws RemoteException;
-	public String InserirNoticia (String topico, String produtor, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException;
+	public ArrayList <String> AdicionarTopico (String topico, ArrayList <String> topicos) throws RemoteException;
+	public String InserirNoticia (String topico, String produtor, int dia, int mes, int ano, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException;
 	public ArrayList <Noticia> ConsultarNoticias (String produtor, ArrayList <Noticia> noticias) throws RemoteException;
     
 	// métodos para o cliente Consumidor

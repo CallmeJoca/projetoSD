@@ -37,8 +37,8 @@ public class Funcoes {
         }
     }
 
-    // abrir os ficheiros com os registos de utilizadores, tópicos e notícias
-	public static void abrirFicheiros (ArrayList <Utilizador> utilizadores, ArrayList <String> topicos, ArrayList<Noticia> noticias) {
+    // abrir os ficheiros com os registos de utilizadores
+    public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
         // abrir o ficheiro com os dados dos utilizadores já registados
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("utilizadores.txt"));
@@ -47,7 +47,12 @@ public class Funcoes {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        // abrir o ficheiro com os tópicos já registados
+        return utilizadores;
+    }
+    
+    // abrir os ficheiros com os registos de tópicos
+    public static ArrayList <String> abrirFicheiroTopicos (ArrayList <String> topicos) {
+    	// abrir o ficheiro com os tópicos já registados
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("topicos.txt"));
             topicos = (ArrayList <String>) ois.readObject();
@@ -55,6 +60,11 @@ public class Funcoes {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return topicos;
+    }
+    
+    // abrir os ficheiros com os registos de notícias
+    public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
         // abrir o ficheiro com as notícias já registadas
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("noticias.txt"));
@@ -63,6 +73,7 @@ public class Funcoes {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return noticias;
     }
 
     // criar um novo utilizador (aka registo)
