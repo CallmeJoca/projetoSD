@@ -24,9 +24,11 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return "Tópico adicionado com sucesso";
 	}
 	
-	public String InserirNoticia (String topico, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
+	public String InserirNoticia (String topico, String produtor, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		String mensagem = "";
+		char [] texto = new char [180];
 		boolean existe = false;
+		int dia, mes, ano;
 		// verificar se o tópico existe
 		for (int i = 0; i < topicos.size(); i++) {
 			if (topicos.get(i).equals(topico)) {
@@ -36,10 +38,31 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			}
 		}
 		if (existe == true) {
-			// 
-			// adiciona a notícia
+			// ler os dados necessários para criar a notícia
+			// dia da publicação
+			System.out.println("Introduza o dia de publicação: ");
+			dia = Funcoes.lerInteiro();
+			// mês da publicação
+			System.out.println("Introduza o mês de publicação: ");
+			mes = Funcoes.lerInteiro();
+			// ano da publicação
+			System.out.println("Introduza o ano de publicação: ");
+			ano = Funcoes.lerInteiro();
+			// corpo da notícia
+			System.out.println("Introduza o texto da notícia: ");
+			for (int i = 0; i < 180; i++) {
+				texto[i] = Funcoes.lerCaratere();
+			}
+			// adicionar os dados à notícia
 			Noticia noticia = new Noticia();
 			noticia.setTopico(topico);
+			noticia.setProdutor(produtor);
+			noticia.setTexto(texto);
+			noticia.setDiaPublicacao(dia);
+			noticia.setMesPublicacao(mes);
+			noticia.setAnoPublicacao(ano);
+			// adicionar a notícia ao array de notícias
+			noticias.add(noticia);
 			// escrever mensagem de sucesso
 			mensagem = "Notícia adicionada com sucesso";
 		} else if (existe == false) {
@@ -50,8 +73,18 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return mensagem;
 	}
 	
-	public void ConsultarNoticias (ArrayList <Noticia> noticias) throws RemoteException {
-		System.out.println("Por implementar.");
+	public ArrayList <Noticia> ConsultarNoticias (String produtor, ArrayList <Noticia> noticias) throws RemoteException {
+		// criar um ArrayList auxiliar para guardar as notícias publicadas de um produtor
+		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
+		for (int i = 0; i < noticias.size(); i++) {
+			// verificar se a notícia daquela posição foi escrita por aquele produtor
+			if (noticias.get(i).getProdutor().equals(produtor)) {
+				// se o produtor coincide, adicionar a notícia ao ArrayList auxiliar
+				auxiliar.add(noticias.get(i));
+			}
+		}
+		// retornar o ArrayList auxiliar
+		return auxiliar;
 	}
 	
     // ----- métodos para o cliente Consumidor ----- //
