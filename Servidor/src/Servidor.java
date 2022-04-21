@@ -3,11 +3,7 @@ import java.io.*;
 import java.net.*;
 
 public class Servidor {
-	
-	
-	
-	
-	
+		
 	public static void main(String [] args) {
 		// instalar um gestor de seguran\ufffda
     	System.setSecurityManager(new SecurityManager());
