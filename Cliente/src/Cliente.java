@@ -5,13 +5,17 @@ import java.rmi.Naming;
 public class Cliente {
     public static void main(String [] args) {
         Utilizador user = new Utilizador();
-        String topico;
+        Noticia ultimaNoticia = new Noticia();
+        String topico, texto;
         int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
-        char [] texto = new char [180];
+        char [] textoAuxiliar;
+        char [] noticia = new char [180];
         ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 		ArrayList <String> topicos = new ArrayList <String> ();
 		ArrayList <Noticia> noticias = new ArrayList <Noticia> ();
+		ArrayList <String> subscricoes = new ArrayList <String> ();
+		ArrayList <Noticia> noticiasTempo = new ArrayList <Noticia> ();
 
 		try {
 			// ligar o cliente ao servidor
@@ -75,17 +79,24 @@ public class Cliente {
                 						anoPublicacao = Funcoes.lerInteiro();
                 						// corpo da notícia
                 						System.out.println("Introduza o texto da notícia: ");
-                						for (int i = 0; i < 180; i++) {
-                							texto[i] = Funcoes.lerCaratere();
-                						}
-                						System.out.println(objetoServidor.InserirNoticia(topico, user.getNome(), diaPublicacao, mesPublicacao, anoPublicacao, texto, topicos, noticias));
+                						// ler uma String com o corpo da notícia
+                						texto = Funcoes.lerString();
+                						// transformar a String para um array de carateres auxiliar
+                				        textoAuxiliar = texto.toCharArray();
+                				        // passar os carateres para o array de carateres final, com limite de 180 posições (carateres)
+                				        for (int i = 0; i < 180; i++) {
+                				            noticia[i] = textoAuxiliar[i];
+                				        }
+                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), diaPublicacao, mesPublicacao, anoPublicacao, noticia, topicos, noticias);
                 						break;
                 					case 4:
                 						// consultar todas as notícias publicadas até ao momento
                 						ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
                 						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
+                						// se o ArrayList auxiliar estiver vazio, não há notícias publicadas
                 						if (auxiliar == null) {
                 							System.out.println("O produtor ainda não tem notícias publicadas.");
+                						// se o ArrayList auxiliar tiver notícias, estas são apresentadas ao utilizador
                 						} else {
                 							System.out.println("Notícias publicadas:\n" + auxiliar);
                 						}
@@ -110,7 +121,7 @@ public class Cliente {
                 						// SERÁ NECESSÁRIO COLOCAR UMA OPÇÃO PARA UM CONSUMIDOR PODER CONSULTAR OS TÓPICOS DISPONÍVEIS PARA SUBSCREVER? DEFENDO QUE SIM
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						objetoServidor.SubscreverTopico(topico);
+                						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
                 						break;
                 					case 2:
                 						// consultar notícias de um dado tópico num intervalo de tempo
@@ -128,13 +139,19 @@ public class Cliente {
                                         mesFim = Funcoes.lerInteiro();
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
-                                        objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim);
+                                        noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim, noticias);
+                                        System.out.println(noticiasTempo);
                                         break;
                 					case 3:
                 						// consultar última notícia de um dado tópico
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                						ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                						if (ultimaNoticia.getTopico().equals("")) {
+                							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
+                						} else {
+                							System.out.println(ultimaNoticia);
+                						}
                 						break;
                 					case 0:
                 						// sair
@@ -169,14 +186,20 @@ public class Cliente {
                                     mesFim = Funcoes.lerInteiro();
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
-                                    objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim);
+                                    noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim, noticias);
+                                    System.out.println(noticiasTempo);
                                     break;
                                 case 2:
                                 	// consultar última notícia de um dado tópico
                                     System.out.println("Introduza o tópico: ");
                                     topico = Funcoes.lerString();
-                                    objetoServidor.ConsultarUltimaNoticia(topico, noticias);
-                                    break;
+                                    ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                                    if (ultimaNoticia.getTopico().equals("")) {
+            							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
+            						} else {
+            							System.out.println(ultimaNoticia);
+            						}
+            						break;
                                 case 0:
                                 	// sair
                                 	System.out.println("Esperamos o seu regresso!");

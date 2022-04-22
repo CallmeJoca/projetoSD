@@ -24,9 +24,8 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return topicos;
 	}
 	
-	public String InserirNoticia (String topico, String produtor, int dia, int mes, int ano, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
+	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, int dia, int mes, int ano, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		int existe = 0;
-		String mensagem = "";
 		// verificar se o tópico existe
 		for (int i = 0; i < topicos.size(); i++) {
 			if (topicos.get(i).equals(topico)) {
@@ -46,14 +45,9 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			noticia.setAnoPublicacao(ano);
 			// adicionar a notícia ao array de notícias
 			noticias.add(noticia);
-			// escrever mensagem de sucesso
-			mensagem = "Notícia adicionada com sucesso";
-		} else if (existe == 0) {
-			// escrever mensagem de erro
-			mensagem = "O tópico desejado não existe";
 		}
-		// retornar a mensagem
-		return mensagem;
+		// retornar o array de notícias - com a nova notícia ou não
+		return noticias;
 	}
 	
 	public ArrayList <Noticia> ConsultarNoticias (String produtor, ArrayList <Noticia> noticias) throws RemoteException {
@@ -71,16 +65,49 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 	}
 	
     // ----- métodos para o cliente Consumidor ----- //
-	public void SubscreverTopico (String topico) throws RemoteException {
-		System.out.println("Por implementar.");
+	public ArrayList <String> SubscreverTopico (String topico, ArrayList <String> subscricoes) throws RemoteException {
+		// verificar se o tópico que se quer subscrever já está subscrito ou não
+		for (int i = 0; i < subscricoes.size(); i++) {
+			if (subscricoes.get(i).equals(topico)) {
+				// retornar o ArrayList de tópicos subscritos sem modificações
+				return subscricoes;
+			}
+		}
+		// se saiu do ciclo for sem retornar nenhuma vez, o tópico desejado ainda não está subscrito
+		subscricoes.add(topico);
+		// retornar o ArrayList de tópicos subscritos, com o novo tópico acrescentado
+		return subscricoes;
 	}
 	
-	public void ConsultarNoticiasTopico (String topico, int diaInicio, int diaFim, int mesInicio, int mesFim, int anoInicio, int anoFim) throws RemoteException {
-		// 
-		System.out.println("Por implementar.");
+	public ArrayList <Noticia> ConsultarNoticiasTopico (String topico, int diaInicio, int diaFim, int mesInicio, int mesFim, int anoInicio, int anoFim, ArrayList <Noticia> noticias) throws RemoteException {
+		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
+		for (int i = 0; i < noticias.size(); i++) {
+			// se a notícia daquela posição pertence a um determinado tópico
+			if (noticias.get(i).getTopico().equals(topico)) {
+				// comparar as datas: ano > mês > dia --- ACHO QUE NÃO ESTÁ A CEM POR CENTO MAS TENHO DE CONFIRMAR AINDA
+				if (anoInicio < noticias.get(i).getAnoPublicacao() && anoFim > noticias.get(i).getAnoPublicacao()) {
+					if (mesInicio < noticias.get(i).getMesPublicacao() && mesFim < noticias.get(i).getMesPublicacao()) {
+						if (diaInicio < noticias.get(i).getDiaPublicacao() && diaFim > noticias.get(i).getDiaPublicacao()) {
+							auxiliar.add(noticias.get(i));
+						}
+					}
+				}
+			}
+		}
+		// retornar o ArrayList com as notícias de um tópico de um determinado intervalo de tempo
+		return auxiliar;
 	}
 	
-	public void ConsultarUltimaNoticia (String topico, ArrayList <Noticia> noticias) throws RemoteException {
-		System.out.println("Por implementar.");
+	public Noticia ConsultarUltimaNoticia (String topico, ArrayList <Noticia> noticias) throws RemoteException {
+		Noticia auxiliar = new Noticia ();
+		// verificar, do fim para o princípio, qual o tópico das notícias
+		for (int i = noticias.size(); i > 0; i--) {
+			// se o tópico for igual ao passado em parâmetro, então retorna a notícia dessa posição do ArrayList
+			if (noticias.get(i).getTopico().equals(topico)) {
+				return noticias.get(i);
+			}
+		}
+		// se saiu do ciclo for, não há notícias sobre aquele tópico, logo retorna uma notícia vazia
+		return auxiliar;
 	}
 }
