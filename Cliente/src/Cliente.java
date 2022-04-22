@@ -4,13 +4,14 @@ import java.rmi.Naming;
 // classe inicial do cliente
 public class Cliente {
     public static void main(String [] args) {
-        Utilizador user = new Utilizador();
-        Noticia ultimaNoticia = new Noticia();
-        String topico, texto;
         int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
         char [] textoAuxiliar;
         char [] noticia = new char [180];
+        Utilizador user = new Utilizador();
+        Noticia ultimaNoticia = new Noticia();
+        String topico, texto;
+        Calendar inicio = Calendar.getInstance(), fim = Calendar.getInstance(), publicacao = Calendar.getInstance();
         ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 		ArrayList <String> topicos = new ArrayList <String> ();
 		ArrayList <Noticia> noticias = new ArrayList <Noticia> ();
@@ -77,6 +78,8 @@ public class Cliente {
                 						// ano da publicação
                 						System.out.println("Introduza o ano de publicação: ");
                 						anoPublicacao = Funcoes.lerInteiro();
+                						// introduzir a data num objeto do tipo Calendar
+                				        publicacao.set(anoPublicacao, mesPublicacao, diaPublicacao);
                 						// corpo da notícia
                 						System.out.println("Introduza o texto da notícia: ");
                 						// ler uma String com o corpo da notícia
@@ -87,7 +90,7 @@ public class Cliente {
                 				        for (int i = 0; i < 180; i++) {
                 				            noticia[i] = textoAuxiliar[i];
                 				        }
-                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), diaPublicacao, mesPublicacao, anoPublicacao, noticia, topicos, noticias);
+                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
                 						break;
                 					case 4:
                 						// consultar todas as notícias publicadas até ao momento
@@ -139,7 +142,10 @@ public class Cliente {
                                         mesFim = Funcoes.lerInteiro();
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
-                                        noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim, noticias);
+                                        // adicionar as datas a objetos do tipo Calendar
+                                        inicio.set(anoInicio, mesInicio, diaInicio);
+                                        fim.set(anoFim, mesFim, diaFim);
+                                        noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim, noticias);
                                         System.out.println(noticiasTempo);
                                         break;
                 					case 3:
@@ -147,6 +153,7 @@ public class Cliente {
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
                 						ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                                        // se o tópico não estiver preenchido, então o objeto está inicializado a null
                 						if (ultimaNoticia.getTopico().equals("")) {
                 							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
                 						} else {
@@ -186,7 +193,10 @@ public class Cliente {
                                     mesFim = Funcoes.lerInteiro();
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
-                                    noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim, noticias);
+                                    // adicionar as datas a objetos do tipo Calendar
+                                    inicio.set(anoInicio, mesInicio, diaInicio);
+                                    fim.set(anoFim, mesFim, diaFim);
+                                    noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim, noticias);
                                     System.out.println(noticiasTempo);
                                     break;
                                 case 2:
@@ -194,6 +204,7 @@ public class Cliente {
                                     System.out.println("Introduza o tópico: ");
                                     topico = Funcoes.lerString();
                                     ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                                    // se o tópico não estiver preenchido, então o objeto está inicializado a null
                                     if (ultimaNoticia.getTopico().equals("")) {
             							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
             						} else {

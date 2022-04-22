@@ -1,6 +1,7 @@
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 // classe de implementação da interface 
 public class Implementacao extends UnicastRemoteObject implements Interface {	
@@ -24,7 +25,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return topicos;
 	}
 	
-	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, int dia, int mes, int ano, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
+	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		int existe = 0;
 		// verificar se o tópico existe
 		for (int i = 0; i < topicos.size(); i++) {
@@ -40,9 +41,9 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			noticia.setTopico(topico);
 			noticia.setProdutor(produtor);
 			noticia.setTexto(texto);
-			noticia.setDiaPublicacao(dia);
-			noticia.setMesPublicacao(mes);
-			noticia.setAnoPublicacao(ano);
+			noticia.setDiaPublicacao(publicacao.get(Calendar.DAY_OF_MONTH));
+			noticia.setMesPublicacao(publicacao.get(Calendar.MONTH));
+			noticia.setAnoPublicacao(publicacao.get(Calendar.YEAR));
 			// adicionar a notícia ao array de notícias
 			noticias.add(noticia);
 		}
@@ -79,19 +80,17 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return subscricoes;
 	}
 	
-	public ArrayList <Noticia> ConsultarNoticiasTopico (String topico, int diaInicio, int diaFim, int mesInicio, int mesFim, int anoInicio, int anoFim, ArrayList <Noticia> noticias) throws RemoteException {
+	public ArrayList <Noticia> ConsultarNoticiasTopico (String topico, Calendar inicio, Calendar fim, ArrayList <Noticia> noticias) throws RemoteException {
 		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
+		Calendar data = Calendar.getInstance();
 		for (int i = 0; i < noticias.size(); i++) {
 			// se a notícia daquela posição pertence a um determinado tópico
 			if (noticias.get(i).getTopico().equals(topico)) {
-				// comparar as datas: ano > mês > dia --- ACHO QUE NÃO ESTÁ A CEM POR CENTO MAS TENHO DE CONFIRMAR AINDA
-				if (anoInicio < noticias.get(i).getAnoPublicacao() && anoFim > noticias.get(i).getAnoPublicacao()) {
-					if (mesInicio < noticias.get(i).getMesPublicacao() && mesFim < noticias.get(i).getMesPublicacao()) {
-						if (diaInicio < noticias.get(i).getDiaPublicacao() && diaFim > noticias.get(i).getDiaPublicacao()) {
-							auxiliar.add(noticias.get(i));
-						}
-					}
-				}
+				data.set(noticias.get(i).getAnoPublicacao(), noticias.get(i).getMesPublicacao(), noticias.get(i).getDiaPublicacao());
+				// comparar as datas
+				if (inicio.compareTo(data) < 0 && fim.compareTo(data) > 0) {
+		            auxiliar.add(noticias.get(i));
+		        }
 			}
 		}
 		// retornar o ArrayList com as notícias de um tópico de um determinado intervalo de tempo
