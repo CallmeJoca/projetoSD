@@ -1,6 +1,9 @@
 package Servidor;
 
-import java.io.Serializable;
+import java.io.*;
+import java.util.*;
+
+private static String FICHEIRO_DE_NOTICIAS = "";
 
 public class Noticia implements Serializable {
     // para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
@@ -66,5 +69,14 @@ public class Noticia implements Serializable {
 
     public void setAnoPublicacao(int anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
+    }
+    
+    public String toString() {
+    	String text_holder, day_holder, month_holder, year_holder;
+    	text_holder = (String) this.texto;
+    	day_holder = (String) this.diaPublicacao;
+    	month_holder = (String) this.mesPublicacao;
+    	year_holder = (String) this.anoPublicacao;
+    	return(""+this.topico+"\n"+this.produtor+"\n"+this.text_holder+"\n"+this.day_holder+"\n"+this.month_holder+"\n"+this.year_holder+"\n");
     }
 }

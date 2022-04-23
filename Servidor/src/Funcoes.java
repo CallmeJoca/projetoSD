@@ -3,6 +3,9 @@ package Servidor;
 import java.io.*;
 import java.util.*;
 
+private static String FICHEIRO_DE_TOPICOS  = "topicos.txt";
+private static String FICHEIRO_DE_NOTICIAS = "noticias.txt";
+
 public class Funcoes {
 	// ler uma String a partir do teclado
     public static String lerString () {
@@ -44,7 +47,7 @@ public class Funcoes {
     public static ArrayList <String> abrirFicheiroTopicos (ArrayList <String> topicos) {
     	// abrir o ficheiro com os t�picos j� registados
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("topicos.txt"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_TOPICOS));
             topicos = (ArrayList <String>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -57,7 +60,7 @@ public class Funcoes {
     public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
         // abrir o ficheiro com as not�cias j� registadas
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("noticias.txt"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_NOTICIAS));
             noticias = (ArrayList <Noticia>) ois.readObject();
             ois.close();
         } catch (Exception e) {

@@ -18,11 +18,8 @@ public class Daemon extends Thread{
 	@Override
 	public void run() {
 		//Main function of the server
-		
 		Naming.rebind("Cliente", cliente);
 		System.out.println("Objeto remoto pronto.");
 		
-		
 	}
-	
 }
