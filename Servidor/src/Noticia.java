@@ -1,21 +1,18 @@
 import java.io.Serializable;
+import java.util.Calendar;
 
 public class Noticia implements Serializable {
     // para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
     private String topico;
     private String produtor;
     private char [] texto;
-    private int diaPublicacao;
-    private int mesPublicacao;
-    private int anoPublicacao;
+    private Calendar data;
 
     public Noticia () {
         topico = "";
         produtor = "";
         texto = new char [180];
-        diaPublicacao = 0;
-        mesPublicacao = 0;
-        anoPublicacao = 0;
+        data = Calendar.getInstance();
     }
 
     public String getTopico() {
@@ -42,27 +39,11 @@ public class Noticia implements Serializable {
         this.texto = texto;
     }
 
-    public int getDiaPublicacao() {
-        return diaPublicacao;
+    public Calendar getData() {
+        return data;
     }
 
-    public void setDiaPublicacao(int diaPublicacao) {
-        this.diaPublicacao = diaPublicacao;
-    }
-
-    public int getMesPublicacao() {
-        return mesPublicacao;
-    }
-
-    public void setMesPublicacao(int mesPublicacao) {
-        this.mesPublicacao = mesPublicacao;
-    }
-    
-    public int getAnoPublicacao() {
-        return anoPublicacao;
-    }
-
-    public void setAnoPublicacao(int anoPublicacao) {
-        this.anoPublicacao = anoPublicacao;
+    public void setData(Calendar data) {
+        this.data = data;
     }
 }

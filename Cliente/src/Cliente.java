@@ -15,6 +15,7 @@ public class Cliente {
         ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 		ArrayList <String> topicos = new ArrayList <String> ();
 		ArrayList <Noticia> noticias = new ArrayList <Noticia> ();
+		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
 		ArrayList <String> subscricoes = new ArrayList <String> ();
 		ArrayList <Noticia> noticiasTempo = new ArrayList <Noticia> ();
 
@@ -94,7 +95,6 @@ public class Cliente {
                 						break;
                 					case 4:
                 						// consultar todas as notícias publicadas até ao momento
-                						ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
                 						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
                 						// se o ArrayList auxiliar estiver vazio, não há notícias publicadas
                 						if (auxiliar == null) {
@@ -116,7 +116,7 @@ public class Cliente {
                         	// fazer as operações permitidas a um cliente Consumidor
                         	// menu de operações para o cliente Consumidor
                         	do {
-                				System.out.println("1 - Subscrever tópico\n2 - Consultar notícias de um dado tópico num intervalo de tempo\n3 - Consultar a última notícia de um dado tópico\n0 - Sair");
+                				System.out.println("1 - Subscrever tópico\n2 - Consultar notícias de um dado tópico num dado intervalo de tempo\n3 - Consultar a última notícia de um dado tópico\n0 - Sair");
                 				opcao = Funcoes.lerInteiro();
                 				switch (opcao) {
                 					case 1:
@@ -174,7 +174,7 @@ public class Cliente {
                     if (opcao == 2) {
                         // menu de operações para o cliente não autenticado
                         do {
-                            System.out.println("1 - Consultar notícias de um dado tópico num intervalo de tempo\n2 - Consultar a última notícia de um dado tópico\n0 - Sair");
+                            System.out.println("1 - Consultar notícias de um dado tópico num dado intervalo de tempo\n2 - Consultar a última notícia de um dado tópico\n0 - Sair");
                             opcao = Funcoes.lerInteiro();
                             switch (opcao) {
                                 case 1:
