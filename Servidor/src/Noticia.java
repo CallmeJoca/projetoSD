@@ -1,3 +1,5 @@
+package Servidor;
+
 import java.io.Serializable;
 
 public class Noticia implements Serializable {

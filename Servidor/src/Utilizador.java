@@ -1,3 +1,5 @@
+package Servidor;
+
 import java.io.Serializable;
 
 public class Utilizador implements Serializable {

@@ -1,3 +1,10 @@
+package Servidor;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.rmi.*;
+
 public class Daemon extends Thread{
 	
 	Interface cliente;
@@ -14,6 +21,8 @@ public class Daemon extends Thread{
 		
 		Naming.rebind("Cliente", cliente);
 		System.out.println("Objeto remoto pronto.");
+		
+		
 	}
 	
 }

@@ -1,15 +1,18 @@
-import java.net.MalformedURLException;
+package Servidor;
+
 import java.io.*;
 import java.net.*;
+import java.util.*;
+import java.rmi.*;
 
 public class Servidor {
 		
 	public static void main(String [] args) {
-		// instalar um gestor de seguran\ufffda
+		// instalar um gestor de seguranca
     	System.setSecurityManager(new SecurityManager());
     	
     	try {
-			// inicializar a execu��o do registo no porto desejado
+			// inicializar a execucao do registo no porto desejado
 			java.rmi.registry.LocateRegistry.createRegistry(1099);
     		System.out.println("Registo RMI pronto.");
 		} catch (RemoteException e) {
@@ -17,7 +20,7 @@ public class Servidor {
 		}
     	
     	// Create the list of threads where each client will be added
-    	ArrayList<Daemon> userThreads = new ArrayList<Daemon>();
+    	ArrayList<Interface> userThreads = new ArrayList<Interface>();
     	
 		while(true) {
 			try {
@@ -28,7 +31,7 @@ public class Servidor {
 	    		// call the daemon to generate the thread
 	    		userThreads.add(cliente);
 	    		
-	    	} catch (MalformedURLException | RemoteException e) {
+	    	} catch (Exception e) {
 	    		System.out.println(e.getMessage());
 	    	}
 		}
