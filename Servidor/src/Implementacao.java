@@ -44,9 +44,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			noticia.setTopico(topico);
 			noticia.setProdutor(produtor);
 			noticia.setTexto(texto);
-			noticia.setDiaPublicacao(publicacao.get(Calendar.DAY_OF_MONTH));
-			noticia.setMesPublicacao(publicacao.get(Calendar.MONTH));
-			noticia.setAnoPublicacao(publicacao.get(Calendar.YEAR));
+			noticia.setData(publicacao);
 			// adicionar a not�cia ao array de not�cias
 			noticias.add(noticia);
 		}
@@ -85,13 +83,11 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 	
 	public ArrayList <Noticia> ConsultarNoticiasTopico (String topico, Calendar inicio, Calendar fim, ArrayList <Noticia> noticias) throws RemoteException {
 		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
-		Calendar data = Calendar.getInstance();
 		for (int i = 0; i < noticias.size(); i++) {
 			// se a not�cia daquela posi��o pertence a um determinado t�pico
 			if (noticias.get(i).getTopico().equals(topico)) {
-				data.set(noticias.get(i).getAnoPublicacao(), noticias.get(i).getMesPublicacao(), noticias.get(i).getDiaPublicacao());
 				// comparar as datas
-				if (inicio.compareTo(data) < 0 && fim.compareTo(data) > 0) {
+				if (inicio.compareTo(noticias.get(i).getData()) < 0 && fim.compareTo(noticias.get(i).getData()) > 0) {
 		            auxiliar.add(noticias.get(i));
 		        }
 			}

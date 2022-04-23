@@ -126,6 +126,7 @@ public class Funcoes {
                 utilizador.setNome(utilizadores.get(i).getNome());
                 utilizador.setPasse(utilizadores.get(i).getPasse());
                 utilizador.setTipo(utilizadores.get(i).getTipo());
+                utilizador.setSubscricoes(utilizadores.get(i).getSubscricoes());
                 System.out.println("Utilizador autenticado");
                 return true;
             }
