@@ -3,6 +3,7 @@ package Servidor;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 // classe de implementacao da interface 
 public class Implementacao extends UnicastRemoteObject implements Interface {	
@@ -26,7 +27,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return topicos;
 	}
 	
-	public String InserirNoticia (String topico, String produtor, int dia, int mes, int ano, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
+	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		int existe = 0;
 		String mensagem = "";
 		// verificar se o topico existe
@@ -43,19 +44,14 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			noticia.setTopico(topico);
 			noticia.setProdutor(produtor);
 			noticia.setTexto(texto);
-			noticia.setDiaPublicacao(dia);
-			noticia.setMesPublicacao(mes);
-			noticia.setAnoPublicacao(ano);
-			// adicionar a notacia ao array de notacias
+			noticia.setDiaPublicacao(publicacao.get(Calendar.DAY_OF_MONTH));
+			noticia.setMesPublicacao(publicacao.get(Calendar.MONTH));
+			noticia.setAnoPublicacao(publicacao.get(Calendar.YEAR));
+			// adicionar a not�cia ao array de not�cias
 			noticias.add(noticia);
-			// escrever mensagem de sucesso
-			mensagem = "Noticia adicionada com sucesso";
-		} else if (existe == 0) {
-			// escrever mensagem de erro
-			mensagem = "O topico desejado nao existe";
 		}
-		// retornar a mensagem
-		return mensagem;
+		// retornar o array de not�cias - com a nova not�cia ou n�o
+		return noticias;
 	}
 	
 	public ArrayList <Noticia> ConsultarNoticias (String produtor, ArrayList <Noticia> noticias) throws RemoteException {
@@ -72,17 +68,48 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return auxiliar;
 	}
 	
-    // ----- metodos para o cliente Consumidor ----- //
-	public void SubscreverTopico (String topico) throws RemoteException {
-		System.out.println("Por implementar.");
+    // ----- m�todos para o cliente Consumidor ----- //
+	public ArrayList <String> SubscreverTopico (String topico, ArrayList <String> subscricoes) throws RemoteException {
+		// verificar se o t�pico que se quer subscrever j� est� subscrito ou n�o
+		for (int i = 0; i < subscricoes.size(); i++) {
+			if (subscricoes.get(i).equals(topico)) {
+				// retornar o ArrayList de t�picos subscritos sem modifica��es
+				return subscricoes;
+			}
+		}
+		// se saiu do ciclo for sem retornar nenhuma vez, o t�pico desejado ainda n�o est� subscrito
+		subscricoes.add(topico);
+		// retornar o ArrayList de t�picos subscritos, com o novo t�pico acrescentado
+		return subscricoes;
 	}
 	
-	public void ConsultarNoticiasTopico (String topico, int diaInicio, int diaFim, int mesInicio, int mesFim, int anoInicio, int anoFim) throws RemoteException {
-		// 
-		System.out.println("Por implementar.");
+	public ArrayList <Noticia> ConsultarNoticiasTopico (String topico, Calendar inicio, Calendar fim, ArrayList <Noticia> noticias) throws RemoteException {
+		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
+		Calendar data = Calendar.getInstance();
+		for (int i = 0; i < noticias.size(); i++) {
+			// se a not�cia daquela posi��o pertence a um determinado t�pico
+			if (noticias.get(i).getTopico().equals(topico)) {
+				data.set(noticias.get(i).getAnoPublicacao(), noticias.get(i).getMesPublicacao(), noticias.get(i).getDiaPublicacao());
+				// comparar as datas
+				if (inicio.compareTo(data) < 0 && fim.compareTo(data) > 0) {
+		            auxiliar.add(noticias.get(i));
+		        }
+			}
+		}
+		// retornar o ArrayList com as not�cias de um t�pico de um determinado intervalo de tempo
+		return auxiliar;
 	}
 	
-	public void ConsultarUltimaNoticia (String topico, ArrayList <Noticia> noticias) throws RemoteException {
-		System.out.println("Por implementar.");
+	public Noticia ConsultarUltimaNoticia (String topico, ArrayList <Noticia> noticias) throws RemoteException {
+		Noticia auxiliar = new Noticia ();
+		// verificar, do fim para o princ�pio, qual o t�pico das not�cias
+		for (int i = noticias.size(); i > 0; i--) {
+			// se o t�pico for igual ao passado em par�metro, ent�o retorna a not�cia dessa posi��o do ArrayList
+			if (noticias.get(i).getTopico().equals(topico)) {
+				return noticias.get(i);
+			}
+		}
+		// se saiu do ciclo for, n�o h� not�cias sobre aquele t�pico, logo retorna uma not�cia vazia
+		return auxiliar;
 	}
 }

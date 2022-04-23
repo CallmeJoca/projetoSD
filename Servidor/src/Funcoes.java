@@ -26,18 +26,6 @@ public class Funcoes {
             }
         }
     }
-    
-    // ler um caratere a partir de uma String
-    public static char lerCaratere () {
-        while (true) {
-            try {
-                return lerString().charAt(0);
-            }
-            catch (Exception e) {
-                System.out.println ("Nao e um caratere valido.");
-            }
-        }
-    }
 
     // abrir os ficheiros com os registos de utilizadores
     public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
