@@ -38,12 +38,17 @@ public class Utilizador implements Serializable {
     public String getTipo () {
         return tipo;
     }
-    
+
     public void setSubscricoes (ArrayList <String> subscricoes) {
     	this.subscricoes = subscricoes;
     }
-    
+
     public ArrayList <String> getSubscricoes () {
     	return subscricoes;
     }
+
+    @Override
+	public String toString() {
+		return "Utilizador [Nome: " + nome + ", Pass: " + passe + ", Tipo: " + tipo + ", Subscricoes: " + subscricoes + "]\n";
+	}
 }
