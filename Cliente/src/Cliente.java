@@ -1,9 +1,28 @@
 import java.util.*;
 import java.rmi.Naming;
+import java.io.*;
+import java.net.*;
 
 // classe inicial do cliente
 public class Cliente {
+	private Socket s;
+	public Cliente() {
+		try {
+			s=new Socket("127.0.0.1",5432);
+			ObjectInputStream is=new ObjectInputStream(s.getInputStream());
+			System.out.println(is.readObject());
+			s.close();
+		}
+		catch(ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		catch(IOException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
     public static void main(String [] args) {
+    	Cliente c=new Cliente();
         int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
         char [] textoAuxiliar;
