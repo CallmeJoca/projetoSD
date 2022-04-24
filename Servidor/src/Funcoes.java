@@ -73,6 +73,15 @@ public class Funcoes {
         return noticias;
     }
 
+    // escrever/guardar as noticias para o ficheiro
+    public static void escreverFicheiroNoticias (ArrayList <Noticia> noticias) {
+    	try {
+			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream("noticias.txt"));
+			tOUT.writeObject(noticias);
+			tOUT.close();
+		} catch(IOException e) {e.printStackTrace(); }
+    }
+
     // criar um novo utilizador (aka registo)
     public static boolean criarUtilizador (ArrayList <Utilizador> utilizadores, Utilizador utilizador) {
         String nome, passe, tipo;

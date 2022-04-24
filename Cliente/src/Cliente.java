@@ -93,7 +93,8 @@ public class Cliente {
                 				            noticia[i] = textoAuxiliar[i];
                 				        }
                 						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
-                						break;
+                                        Funcoes.escreverFicheiroNoticias(noticias);
+                                        break;
                 					case 4:
                 						// consultar todas as not�cias publicadas at� ao momento
                 						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
