@@ -49,20 +49,20 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			noticia.setProdutor(produtor);
 			noticia.setTexto(texto);
 			noticia.setData(publicacao);
-			// adicionar a not�cia ao array de not�cias
+			// adicionar a not�cia ao array de noticias
 			noticias.add(noticia);
 		}
-		// retornar o array de not�cias - com a nova not�cia ou n�o
+		// retornar o array de noticias - com a nova noticia ou nao
 		return noticias;
 	}
 	
 	public ArrayList <Noticia> ConsultarNoticias (String produtor, ArrayList <Noticia> noticias) throws RemoteException {
-		// criar um ArrayList auxiliar para guardar as notocias publicadas de um produtor
+		// criar um ArrayList auxiliar para guardar as noticias publicadas de um produtor
 		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
 		for (int i = 0; i < noticias.size(); i++) {
-			// verificar se a notocia daquela posicao foi escrita por aquele produtor
+			// verificar se a noticia daquela posicao foi escrita por aquele produtor
 			if (noticias.get(i).getProdutor().equals(produtor)) {
-				// se o produtor coincide, adicionar a notacia ao ArrayList auxiliar
+				// se o produtor coincide, adicionar a noticia ao ArrayList auxiliar
 				auxiliar.add(noticias.get(i));
 			}
 		}
@@ -70,25 +70,25 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return auxiliar;
 	}
 	
-    // ----- m�todos para o cliente Consumidor ----- //
+    // ----- metodos para o cliente Consumidor ----- //
 	public ArrayList <String> SubscreverTopico (String topico, ArrayList <String> subscricoes) throws RemoteException {
-		// verificar se o t�pico que se quer subscrever j� est� subscrito ou n�o
+		// verificar se o topico que se quer subscrever ja esta subscrito ou nao
 		for (int i = 0; i < subscricoes.size(); i++) {
 			if (subscricoes.get(i).equals(topico)) {
-				// retornar o ArrayList de t�picos subscritos sem modifica��es
+				// retornar o ArrayList de topicos subscritos sem modificacoes
 				return subscricoes;
 			}
 		}
-		// se saiu do ciclo for sem retornar nenhuma vez, o t�pico desejado ainda n�o est� subscrito
+		// se saiu do ciclo for sem retornar nenhuma vez, o topico desejado ainda nao esta subscrito
 		subscricoes.add(topico);
-		// retornar o ArrayList de t�picos subscritos, com o novo t�pico acrescentado
+		// retornar o ArrayList de topicos subscritos, com o novo topico acrescentado
 		return subscricoes;
 	}
 	
 	public ArrayList <Noticia> ConsultarNoticiasTopico (String topico, Calendar inicio, Calendar fim, ArrayList <Noticia> noticias) throws RemoteException {
 		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
 		for (int i = 0; i < noticias.size(); i++) {
-			// se a not�cia daquela posi��o pertence a um determinado t�pico
+			// se a noticia daquela posicao pertence a um determinado topico
 			if (noticias.get(i).getTopico().equals(topico)) {
 				// comparar as datas
 				if (inicio.compareTo(noticias.get(i).getData()) < 0 && fim.compareTo(noticias.get(i).getData()) > 0) {
@@ -96,20 +96,20 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		        }
 			}
 		}
-		// retornar o ArrayList com as not�cias de um t�pico de um determinado intervalo de tempo
+		// retornar o ArrayList com as noticias de um topico de um determinado intervalo de tempo
 		return auxiliar;
 	}
 	
 	public Noticia ConsultarUltimaNoticia (String topico, ArrayList <Noticia> noticias) throws RemoteException {
 		Noticia auxiliar = new Noticia ();
-		// verificar, do fim para o princ�pio, qual o t�pico das not�cias
+		// verificar, do fim para o principio, qual o topico das noticias
 		for (int i = noticias.size(); i > 0; i--) {
-			// se o t�pico for igual ao passado em par�metro, ent�o retorna a not�cia dessa posi��o do ArrayList
+			// se o topico for igual ao passado em parametro, entao retorna a noticia dessa posicao do ArrayList
 			if (noticias.get(i).getTopico().equals(topico)) {
 				return noticias.get(i);
 			}
 		}
-		// se saiu do ciclo for, n�o h� not�cias sobre aquele t�pico, logo retorna uma not�cia vazia
+		// se saiu do ciclo for, nao ha noticias sobre aquele topico, logo retorna uma noticia vazia
 		return auxiliar;
 	}
 }
