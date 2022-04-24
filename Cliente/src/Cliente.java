@@ -27,7 +27,7 @@ public class Cliente {
             topicos = Funcoes.abrirFicheiroTopicos(topicos);
             noticias = Funcoes.abrirFicheiroNoticias(noticias);
             // iniciar cli com o utilizador
-            System.out.println("Bem-vindo ao seu servidor de notícias.\n\nDeseja autenticar-se?\n1 - Sim\n2 - Não");
+            System.out.println("Bem-vindo ao seu servidor de notï¿½cias.\n\nDeseja autenticar-se?\n1 - Sim\n2 - Nï¿½o");
             while (true) {
                 opcao = Funcoes.lerInteiro();
                 if (opcao == 1 || opcao == 2) {
@@ -49,59 +49,60 @@ public class Cliente {
                         }
                         // verificar o tipo de cliente
                         if (user.getTipo().equals("Produtor")) {
-                        	// fazer as operações permitidas a um cliente Produtor
-                        	// menu de operações para o cliente Produtor
+                        	// fazer as operaï¿½ï¿½es permitidas a um cliente Produtor
+                        	// menu de operaï¿½ï¿½es para o cliente Produtor
                 			do {
-                				System.out.println("1 - Adicionar tópico\n2 - Consultar tópicos existentes\n3 - Inserir notícia\n4 - Consultar todas as notícias publicadas\n0 - Sair");
+                				System.out.println("1 - Adicionar tï¿½pico\n2 - Consultar tï¿½picos existentes\n3 - Inserir notï¿½cia\n4 - Consultar todas as notï¿½cias publicadas\n0 - Sair");
                 				opcao = Funcoes.lerInteiro();
                 				switch (opcao) {
                 					case 1:
-                						// adicionar um tópico
-                						System.out.println("Introduza o tópico: ");
+                						// adicionar um tï¿½pico
+                						System.out.println("Introduza o tï¿½pico: ");
                 						topico = Funcoes.lerString();
                 						topicos = objetoServidor.AdicionarTopico(topico, topicos);
-                						break;
+                                        Funcoes.escreverFicheiroTopicos(topicos);
+                                        break;
                 					case 2:
-                						// consultar a lista de tópicos disponíveis
-                						System.out.println("Lista de tópicos disponíveis:\n" + topicos);
+                						// consultar a lista de tï¿½picos disponï¿½veis
+                						System.out.println("Lista de tï¿½picos disponï¿½veis:\n" + topicos);
                 						break;
                 					case 3:
-                						// inserir uma notícia subordinada a um tópico
-                						// tópico
-                						System.out.println("Introduza o tópico: ");
+                						// inserir uma notï¿½cia subordinada a um tï¿½pico
+                						// tï¿½pico
+                						System.out.println("Introduza o tï¿½pico: ");
                 						topico = Funcoes.lerString();
-                						// dia da publicação
-                						System.out.println("Introduza o dia de publicação: ");
+                						// dia da publicaï¿½ï¿½o
+                						System.out.println("Introduza o dia de publicaï¿½ï¿½o: ");
                 						diaPublicacao = Funcoes.lerInteiro();
-                						// mês da publicação
-                						System.out.println("Introduza o mês de publicação: ");
+                						// mï¿½s da publicaï¿½ï¿½o
+                						System.out.println("Introduza o mï¿½s de publicaï¿½ï¿½o: ");
                 						mesPublicacao = Funcoes.lerInteiro();
-                						// ano da publicação
-                						System.out.println("Introduza o ano de publicação: ");
+                						// ano da publicaï¿½ï¿½o
+                						System.out.println("Introduza o ano de publicaï¿½ï¿½o: ");
                 						anoPublicacao = Funcoes.lerInteiro();
                 						// introduzir a data num objeto do tipo Calendar
                 				        publicacao.set(anoPublicacao, mesPublicacao, diaPublicacao);
-                						// corpo da notícia
-                						System.out.println("Introduza o texto da notícia: ");
-                						// ler uma String com o corpo da notícia
+                						// corpo da notï¿½cia
+                						System.out.println("Introduza o texto da notï¿½cia: ");
+                						// ler uma String com o corpo da notï¿½cia
                 						texto = Funcoes.lerString();
                 						// transformar a String para um array de carateres auxiliar
                 				        textoAuxiliar = texto.toCharArray();
-                				        // passar os carateres para o array de carateres final, com limite de 180 posições (carateres)
+                				        // passar os carateres para o array de carateres final, com limite de 180 posiï¿½ï¿½es (carateres)
                 				        for (int i = 0; i < 180; i++) {
                 				            noticia[i] = textoAuxiliar[i];
                 				        }
                 						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
                 						break;
                 					case 4:
-                						// consultar todas as notícias publicadas até ao momento
+                						// consultar todas as notï¿½cias publicadas atï¿½ ao momento
                 						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
-                						// se o ArrayList auxiliar estiver vazio, não há notícias publicadas
+                						// se o ArrayList auxiliar estiver vazio, nï¿½o hï¿½ notï¿½cias publicadas
                 						if (auxiliar == null) {
-                							System.out.println("O produtor ainda não tem notícias publicadas.");
-                						// se o ArrayList auxiliar tiver notícias, estas são apresentadas ao utilizador
+                							System.out.println("O produtor ainda nï¿½o tem notï¿½cias publicadas.");
+                						// se o ArrayList auxiliar tiver notï¿½cias, estas sï¿½o apresentadas ao utilizador
                 						} else {
-                							System.out.println("Notícias publicadas:\n" + auxiliar);
+                							System.out.println("Notï¿½cias publicadas:\n" + auxiliar);
                 						}
                 						break;
                 					case 0:
@@ -109,36 +110,36 @@ public class Cliente {
                                     	System.out.println("Esperamos o seu regresso!");
                                         System.exit(0);
                 					default:
-                						System.out.println("Introduza um valor válido.");
+                						System.out.println("Introduza um valor vï¿½lido.");
                 				}
                 			} while (opcao != 0);
                         } else if (user.getTipo().equals("Consumidor")) {
-                        	// fazer as operações permitidas a um cliente Consumidor
-                        	// menu de operações para o cliente Consumidor
+                        	// fazer as operaï¿½ï¿½es permitidas a um cliente Consumidor
+                        	// menu de operaï¿½ï¿½es para o cliente Consumidor
                         	do {
-                				System.out.println("1 - Subscrever tópico\n2 - Consultar notícias de um dado tópico num dado intervalo de tempo\n3 - Consultar a última notícia de um dado tópico\n0 - Sair");
+                				System.out.println("1 - Subscrever tï¿½pico\n2 - Consultar notï¿½cias de um dado tï¿½pico num dado intervalo de tempo\n3 - Consultar a ï¿½ltima notï¿½cia de um dado tï¿½pico\n0 - Sair");
                 				opcao = Funcoes.lerInteiro();
                 				switch (opcao) {
                 					case 1:
-                						// subscrever um tópico
-                						// SERÁ NECESSÁRIO COLOCAR UMA OPÇÃO PARA UM CONSUMIDOR PODER CONSULTAR OS TÓPICOS DISPONÍVEIS PARA SUBSCREVER? DEFENDO QUE SIM
-                						System.out.println("Introduza o tópico: ");
+                						// subscrever um tï¿½pico
+                						// SERï¿½ NECESSï¿½RIO COLOCAR UMA OPï¿½ï¿½O PARA UM CONSUMIDOR PODER CONSULTAR OS Tï¿½PICOS DISPONï¿½VEIS PARA SUBSCREVER? DEFENDO QUE SIM
+                						System.out.println("Introduza o tï¿½pico: ");
                 						topico = Funcoes.lerString();
                 						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
                 						break;
                 					case 2:
-                						// consultar notícias de um dado tópico num intervalo de tempo
-                                        System.out.println("Introduza o tópico: ");
+                						// consultar notï¿½cias de um dado tï¿½pico num intervalo de tempo
+                                        System.out.println("Introduza o tï¿½pico: ");
                                         topico = Funcoes.lerString();
                                         System.out.println("Introduza o dia da data inicial: ");
                                         diaInicio = Funcoes.lerInteiro();
-                                        System.out.println("Introduza o mês da data inicial: ");
+                                        System.out.println("Introduza o mï¿½s da data inicial: ");
                                         mesInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o ano da data inicial: ");
                                         anoInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o dia da data final: ");
                                         diaFim = Funcoes.lerInteiro();
-                                        System.out.println("Introduza o mês da data final: ");
+                                        System.out.println("Introduza o mï¿½s da data final: ");
                                         mesFim = Funcoes.lerInteiro();
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
@@ -149,13 +150,13 @@ public class Cliente {
                                         System.out.println(noticiasTempo);
                                         break;
                 					case 3:
-                						// consultar última notícia de um dado tópico
-                						System.out.println("Introduza o tópico: ");
+                						// consultar ï¿½ltima notï¿½cia de um dado tï¿½pico
+                						System.out.println("Introduza o tï¿½pico: ");
                 						topico = Funcoes.lerString();
                 						ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
-                                        // se o tópico não estiver preenchido, então o objeto está inicializado a null
+                                        // se o tï¿½pico nï¿½o estiver preenchido, entï¿½o o objeto estï¿½ inicializado a null
                 						if (ultimaNoticia.getTopico().equals("")) {
-                							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
+                							System.out.println("Ainda nï¿½o hï¿½ notï¿½cias subordinadas a esse tï¿½pico.");
                 						} else {
                 							System.out.println(ultimaNoticia);
                 						}
@@ -165,31 +166,31 @@ public class Cliente {
                                     	System.out.println("Esperamos o seu regresso!");
                                         System.exit(0);
                 					default:
-                						System.out.println("Introduza um valor válido.");
+                						System.out.println("Introduza um valor vï¿½lido.");
                 				}
                 			} while (opcao != 0);
                         }
                     }
                     // prosseguir sem autenticar-se
                     if (opcao == 2) {
-                        // menu de operações para o cliente não autenticado
+                        // menu de operaï¿½ï¿½es para o cliente nï¿½o autenticado
                         do {
-                            System.out.println("1 - Consultar notícias de um dado tópico num dado intervalo de tempo\n2 - Consultar a última notícia de um dado tópico\n0 - Sair");
+                            System.out.println("1 - Consultar notï¿½cias de um dado tï¿½pico num dado intervalo de tempo\n2 - Consultar a ï¿½ltima notï¿½cia de um dado tï¿½pico\n0 - Sair");
                             opcao = Funcoes.lerInteiro();
                             switch (opcao) {
                                 case 1:
-                                	// consultar notícias de um dado tópico num intervalo de tempo
-                                    System.out.println("Introduza o tópico: ");
+                                	// consultar notï¿½cias de um dado tï¿½pico num intervalo de tempo
+                                    System.out.println("Introduza o tï¿½pico: ");
                                     topico = Funcoes.lerString();
                                     System.out.println("Introduza o dia da data inicial: ");
                                     diaInicio = Funcoes.lerInteiro();
-                                    System.out.println("Introduza o mês da data inicial: ");
+                                    System.out.println("Introduza o mï¿½s da data inicial: ");
                                     mesInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o ano da data inicial: ");
                                     anoInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o dia da data final: ");
                                     diaFim = Funcoes.lerInteiro();
-                                    System.out.println("Introduza o mês da data final: ");
+                                    System.out.println("Introduza o mï¿½s da data final: ");
                                     mesFim = Funcoes.lerInteiro();
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
@@ -200,13 +201,13 @@ public class Cliente {
                                     System.out.println(noticiasTempo);
                                     break;
                                 case 2:
-                                	// consultar última notícia de um dado tópico
-                                    System.out.println("Introduza o tópico: ");
+                                	// consultar ï¿½ltima notï¿½cia de um dado tï¿½pico
+                                    System.out.println("Introduza o tï¿½pico: ");
                                     topico = Funcoes.lerString();
                                     ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
-                                    // se o tópico não estiver preenchido, então o objeto está inicializado a null
+                                    // se o tï¿½pico nï¿½o estiver preenchido, entï¿½o o objeto estï¿½ inicializado a null
                                     if (ultimaNoticia.getTopico().equals("")) {
-            							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
+            							System.out.println("Ainda nï¿½o hï¿½ notï¿½cias subordinadas a esse tï¿½pico.");
             						} else {
             							System.out.println(ultimaNoticia);
             						}
@@ -216,17 +217,17 @@ public class Cliente {
                                 	System.out.println("Esperamos o seu regresso!");
                                     System.exit(0);
                                 default:
-                                    System.out.println("Introduza um valor válido.");
+                                    System.out.println("Introduza um valor vï¿½lido.");
                             }
                         } while (opcao != 0);
                     }
                 } else {
-                    System.out.println("Introduza uma opção válida.");
+                    System.out.println("Introduza uma opï¿½ï¿½o vï¿½lida.");
                 }
             }
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			// caso a ligação falhe, termina o programa
+			// caso a ligaï¿½ï¿½o falhe, termina o programa
 			System.exit(0);
 		}
 	}
