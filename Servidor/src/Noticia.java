@@ -46,11 +46,9 @@ public class Noticia implements Serializable {
     public void setData(Calendar data) {
         this.data = data;
     }
-    
-    public String toString() {
-    	String text_holder, date_holder;
-    	text_holder = (String) this.texto;
-    	date_holder =  this.data.toString();
-    	return(""+this.topico+"\n"+this.produtor+"\n"+text_holder+"\n"+date_holder+"\n");
-    }
+
+    @Override
+	public String toString() {
+		return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.getTime() + "]\n";
+	}
 }

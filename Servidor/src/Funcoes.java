@@ -18,7 +18,7 @@ public class Funcoes {
         }
         return s;
     }
-    
+
     // ler um inteiro a partir de uma String
     public static int lerInteiro () {
         while (true) {
@@ -55,7 +55,16 @@ public class Funcoes {
         }
         return topicos;
     }
-    
+
+    // escrever/guardar para o ficheiro
+    public static void escreverFicheiroTopicos (ArrayList <String> topicos) {
+    	try {
+			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream("topicos.txt"));
+			tOUT.writeObject(topicos);
+			tOUT.close();
+		} catch(IOException e) {e.printStackTrace(); }
+    }
+
     // abrir os ficheiros com os registos de not�cias
     public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
         // abrir o ficheiro com as not�cias j� registadas
@@ -67,6 +76,15 @@ public class Funcoes {
             System.out.println(e.getMessage());
         }
         return noticias;
+    }
+
+    // escrever/guardar as noticias para o ficheiro
+    public static void escreverFicheiroNoticias (ArrayList <Noticia> noticias) {
+    	try {
+			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream("noticias.txt"));
+			tOUT.writeObject(noticias);
+			tOUT.close();
+		} catch(IOException e) {e.printStackTrace(); }
     }
 
     // criar um novo utilizador (aka registo)
