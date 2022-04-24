@@ -1,12 +1,11 @@
-package ServidorBackup;
-
 import java.io.*;
 import java.util.*;
 
-private static String FICHEIRO_DE_TOPICOS  = "topicos.txt";
-private static String FICHEIRO_DE_NOTICIAS = "noticias.txt";
-
-public class Funcoes {
+public class FuncoesBackup {
+	
+	private static final String FICHEIRO_DE_NOTICIAS = "noticias.txt";
+	private static final String FICHEIRO_DE_TOPICOS  = "topicos.txt";
+	
 	// ler uma String a partir do teclado
     public static String lerString () {
         String s = "";
@@ -31,7 +30,8 @@ public class Funcoes {
     }
 
     // abrir os ficheiros com os registos de utilizadores
-    public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
+    @SuppressWarnings("unchecked")
+	public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
         // abrir o ficheiro com os dados dos utilizadores ja registados
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("utilizadores.txt"));
@@ -44,7 +44,8 @@ public class Funcoes {
     }
     
     // abrir os ficheiros com os registos de t�picos
-    public static ArrayList <String> abrirFicheiroTopicos (ArrayList <String> topicos) {
+    @SuppressWarnings("unchecked")
+	public static ArrayList <String> abrirFicheiroTopicos (ArrayList <String> topicos) {
     	// abrir o ficheiro com os t�picos j� registados
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_TOPICOS));
@@ -57,7 +58,8 @@ public class Funcoes {
     }
     
     // abrir os ficheiros com os registos de not�cias
-    public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
+    @SuppressWarnings("unchecked")
+	public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
         // abrir o ficheiro com as not�cias j� registadas
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_NOTICIAS));

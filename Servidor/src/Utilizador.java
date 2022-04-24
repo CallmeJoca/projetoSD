@@ -1,10 +1,12 @@
-package Servidor;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Utilizador implements Serializable {
-    // para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
     private String nome;
     private String passe;
     private String tipo;
@@ -40,12 +42,17 @@ public class Utilizador implements Serializable {
     public String getTipo () {
         return tipo;
     }
-    
+
     public void setSubscricoes (ArrayList <String> subscricoes) {
     	this.subscricoes = subscricoes;
     }
-    
+
     public ArrayList <String> getSubscricoes () {
     	return subscricoes;
     }
+
+    @Override
+	public String toString() {
+		return "Utilizador [Nome: " + nome + ", Pass: " + passe + ", Tipo: " + tipo + ", Subscricoes: " + subscricoes + "]\n";
+	}
 }
