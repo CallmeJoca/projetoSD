@@ -1,4 +1,7 @@
 import java.rmi.server.UnicastRemoteObject;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,6 +47,17 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			noticia.setData(publicacao);
 			// adicionar a notícia ao array de notícias
 			noticias.add(noticia);
+			//verificar se o limite de noticias foi atingido se sim enviar 50% delas para o ficheiro backup.txt
+			if(noticias.size()==100) {
+				try{
+					ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream("Backup.txt"));
+					for(int i=0;i<noticias.size()/2;i++) {
+						tOUT.writeObject(noticias);
+					}
+					tOUT.close();
+				}
+				catch(IOException e) {}				
+			}
 		}
 		// retornar o array de notícias - com a nova notícia ou não
 		return noticias;
