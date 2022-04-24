@@ -3,7 +3,7 @@ import java.util.Calendar;
 
 public class Noticia implements Serializable {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	// para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
@@ -53,6 +53,6 @@ public class Noticia implements Serializable {
 
     @Override
 	public String toString() {
-		return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.getTime() + "]\n";
+        return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.get(data.DAY_OF_MONTH) + "/" + (data.get(data.MONTH) + 1) + "/"  + data.get(data.YEAR) + "]\n";
 	}
 }

@@ -75,11 +75,12 @@ public class Cliente {
                 						diaPublicacao = Funcoes.lerInteiro();
                 						// mes da publicacao
                 						System.out.println("Introduza o m�s de publicacao: ");
-                						mesPublicacao = Funcoes.lerInteiro();
+                						mesPublicacao = Funcoes.lerInteiro() - 1;
                 						// ano da publicacao
                 						System.out.println("Introduza o ano de publicacao: ");
                 						anoPublicacao = Funcoes.lerInteiro();
                 						// introduzir a data num objeto do tipo Calendar
+                                        publicacao.clear();
                 				        publicacao.set(anoPublicacao, mesPublicacao, diaPublicacao);
                 						// corpo da noticia
                 						System.out.println("Introduza o texto da noticia: ");
@@ -88,7 +89,7 @@ public class Cliente {
                 						// transformar a String para um array de carateres auxiliar
                 				        textoAuxiliar = texto.toCharArray();
                 				        // passar os carateres para o array de carateres final, com limite de 180 posicoes (carateres)
-                				        for (int i = 0; i < 180; i++) {
+                				        for (int i = 0; i < textoAuxiliar.length; i++) {
                 				            noticia[i] = textoAuxiliar[i];
                 				        }
                 						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
