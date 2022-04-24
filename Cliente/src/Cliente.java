@@ -4,19 +4,28 @@ import java.rmi.Naming;
 // classe inicial do cliente
 public class Cliente {
     public static void main(String [] args) {
-        Utilizador user = new Utilizador();
-        String topico;
-        int opcao = -1, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
+        int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
+        char [] textoAuxiliar;
+        char [] noticia = new char [180];
+        Utilizador user = new Utilizador();
+        Noticia ultimaNoticia = new Noticia();
+        String topico, texto;
+        Calendar inicio = Calendar.getInstance(), fim = Calendar.getInstance(), publicacao = Calendar.getInstance();
         ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 		ArrayList <String> topicos = new ArrayList <String> ();
 		ArrayList <Noticia> noticias = new ArrayList <Noticia> ();
+		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
+		ArrayList <String> subscricoes = new ArrayList <String> ();
+		ArrayList <Noticia> noticiasTempo = new ArrayList <Noticia> ();
 
 		try {
 			// ligar o cliente ao servidor
 			Interface objetoServidor = (Interface) Naming.lookup("Servidor");
             // abrir os ficheiros de texto
-            Funcoes.abrirFicheiros(utilizadores, topicos, noticias);
+            utilizadores = Funcoes.abrirFicheiroUtilizadores(utilizadores);
+            topicos = Funcoes.abrirFicheiroTopicos(topicos);
+            noticias = Funcoes.abrirFicheiroNoticias(noticias);
             // iniciar cli com o utilizador
             System.out.println("Bem-vindo ao seu servidor de notícias.\n\nDeseja autenticar-se?\n1 - Sim\n2 - Não");
             while (true) {
@@ -28,7 +37,6 @@ public class Cliente {
                         opcao = Funcoes.lerInteiro();
                         if (opcao == 1) {
                             // login
-                        	// ESTA VERIFICAÇÃO NÃO ESTÁ A FUNCIONAR COMO DEVE SER
                         	while (verificacao == false) {
                                 verificacao = Funcoes.verificarUtilizador(utilizadores, user);
                             }
@@ -51,7 +59,7 @@ public class Cliente {
                 						// adicionar um tópico
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						System.out.println(objetoServidor.AdicionarTopico(topico, topicos));
+                						topicos = objetoServidor.AdicionarTopico(topico, topicos);
                 						break;
                 					case 2:
                 						// consultar a lista de tópicos disponíveis
@@ -59,16 +67,39 @@ public class Cliente {
                 						break;
                 					case 3:
                 						// inserir uma notícia subordinada a um tópico
+                						// tópico
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						System.out.println(objetoServidor.InserirNoticia(topico, user.getNome(), topicos, noticias));
+                						// dia da publicação
+                						System.out.println("Introduza o dia de publicação: ");
+                						diaPublicacao = Funcoes.lerInteiro();
+                						// mês da publicação
+                						System.out.println("Introduza o mês de publicação: ");
+                						mesPublicacao = Funcoes.lerInteiro();
+                						// ano da publicação
+                						System.out.println("Introduza o ano de publicação: ");
+                						anoPublicacao = Funcoes.lerInteiro();
+                						// introduzir a data num objeto do tipo Calendar
+                				        publicacao.set(anoPublicacao, mesPublicacao, diaPublicacao);
+                						// corpo da notícia
+                						System.out.println("Introduza o texto da notícia: ");
+                						// ler uma String com o corpo da notícia
+                						texto = Funcoes.lerString();
+                						// transformar a String para um array de carateres auxiliar
+                				        textoAuxiliar = texto.toCharArray();
+                				        // passar os carateres para o array de carateres final, com limite de 180 posições (carateres)
+                				        for (int i = 0; i < 180; i++) {
+                				            noticia[i] = textoAuxiliar[i];
+                				        }
+                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
                 						break;
                 					case 4:
                 						// consultar todas as notícias publicadas até ao momento
-                						ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
                 						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
+                						// se o ArrayList auxiliar estiver vazio, não há notícias publicadas
                 						if (auxiliar == null) {
                 							System.out.println("O produtor ainda não tem notícias publicadas.");
+                						// se o ArrayList auxiliar tiver notícias, estas são apresentadas ao utilizador
                 						} else {
                 							System.out.println("Notícias publicadas:\n" + auxiliar);
                 						}
@@ -85,7 +116,7 @@ public class Cliente {
                         	// fazer as operações permitidas a um cliente Consumidor
                         	// menu de operações para o cliente Consumidor
                         	do {
-                				System.out.println("1 - Subscrever tópico\n2 - Consultar notícias de um dado tópico num intervalo de tempo\n3 - Consultar a última notícia de um dado tópico\n0 - Sair");
+                				System.out.println("1 - Subscrever tópico\n2 - Consultar notícias de um dado tópico num dado intervalo de tempo\n3 - Consultar a última notícia de um dado tópico\n0 - Sair");
                 				opcao = Funcoes.lerInteiro();
                 				switch (opcao) {
                 					case 1:
@@ -93,7 +124,7 @@ public class Cliente {
                 						// SERÁ NECESSÁRIO COLOCAR UMA OPÇÃO PARA UM CONSUMIDOR PODER CONSULTAR OS TÓPICOS DISPONÍVEIS PARA SUBSCREVER? DEFENDO QUE SIM
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						objetoServidor.SubscreverTopico(topico);
+                						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
                 						break;
                 					case 2:
                 						// consultar notícias de um dado tópico num intervalo de tempo
@@ -111,13 +142,23 @@ public class Cliente {
                                         mesFim = Funcoes.lerInteiro();
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
-                                        objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim);
+                                        // adicionar as datas a objetos do tipo Calendar
+                                        inicio.set(anoInicio, mesInicio, diaInicio);
+                                        fim.set(anoFim, mesFim, diaFim);
+                                        noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim, noticias);
+                                        System.out.println(noticiasTempo);
                                         break;
                 					case 3:
                 						// consultar última notícia de um dado tópico
                 						System.out.println("Introduza o tópico: ");
                 						topico = Funcoes.lerString();
-                						objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                						ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                                        // se o tópico não estiver preenchido, então o objeto está inicializado a null
+                						if (ultimaNoticia.getTopico().equals("")) {
+                							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
+                						} else {
+                							System.out.println(ultimaNoticia);
+                						}
                 						break;
                 					case 0:
                 						// sair
@@ -133,7 +174,7 @@ public class Cliente {
                     if (opcao == 2) {
                         // menu de operações para o cliente não autenticado
                         do {
-                            System.out.println("1 - Consultar notícias de um dado tópico num intervalo de tempo\n2 - Consultar a última notícia de um dado tópico\n0 - Sair");
+                            System.out.println("1 - Consultar notícias de um dado tópico num dado intervalo de tempo\n2 - Consultar a última notícia de um dado tópico\n0 - Sair");
                             opcao = Funcoes.lerInteiro();
                             switch (opcao) {
                                 case 1:
@@ -152,14 +193,24 @@ public class Cliente {
                                     mesFim = Funcoes.lerInteiro();
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
-                                    objetoServidor.ConsultarNoticiasTopico(topico, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim);
+                                    // adicionar as datas a objetos do tipo Calendar
+                                    inicio.set(anoInicio, mesInicio, diaInicio);
+                                    fim.set(anoFim, mesFim, diaFim);
+                                    noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim, noticias);
+                                    System.out.println(noticiasTempo);
                                     break;
                                 case 2:
                                 	// consultar última notícia de um dado tópico
                                     System.out.println("Introduza o tópico: ");
                                     topico = Funcoes.lerString();
-                                    objetoServidor.ConsultarUltimaNoticia(topico, noticias);
-                                    break;
+                                    ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                                    // se o tópico não estiver preenchido, então o objeto está inicializado a null
+                                    if (ultimaNoticia.getTopico().equals("")) {
+            							System.out.println("Ainda não há notícias subordinadas a esse tópico.");
+            						} else {
+            							System.out.println(ultimaNoticia);
+            						}
+            						break;
                                 case 0:
                                 	// sair
                                 	System.out.println("Esperamos o seu regresso!");

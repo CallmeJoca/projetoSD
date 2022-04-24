@@ -24,21 +24,9 @@ public class Funcoes {
             }
         }
     }
-    
-    // ler um caratere a partir de uma String
-    public static char lerCaratere () {
-        while (true) {
-            try {
-                return lerString().charAt(0);
-            }
-            catch (Exception e) {
-                System.out.println ("Não é um caratere válido.");
-            }
-        }
-    }
 
-    // abrir os ficheiros com os registos de utilizadores, tópicos e notícias
-	public static void abrirFicheiros (ArrayList <Utilizador> utilizadores, ArrayList <String> topicos, ArrayList<Noticia> noticias) {
+    // abrir os ficheiros com os registos de utilizadores
+    public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
         // abrir o ficheiro com os dados dos utilizadores já registados
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("utilizadores.txt"));
@@ -47,7 +35,12 @@ public class Funcoes {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        // abrir o ficheiro com os tópicos já registados
+        return utilizadores;
+    }
+    
+    // abrir os ficheiros com os registos de tópicos
+    public static ArrayList <String> abrirFicheiroTopicos (ArrayList <String> topicos) {
+    	// abrir o ficheiro com os tópicos já registados
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("topicos.txt"));
             topicos = (ArrayList <String>) ois.readObject();
@@ -55,6 +48,11 @@ public class Funcoes {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return topicos;
+    }
+    
+    // abrir os ficheiros com os registos de notícias
+    public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
         // abrir o ficheiro com as notícias já registadas
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("noticias.txt"));
@@ -63,6 +61,7 @@ public class Funcoes {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return noticias;
     }
 
     // criar um novo utilizador (aka registo)
@@ -122,6 +121,7 @@ public class Funcoes {
                 utilizador.setNome(utilizadores.get(i).getNome());
                 utilizador.setPasse(utilizadores.get(i).getPasse());
                 utilizador.setTipo(utilizadores.get(i).getTipo());
+                utilizador.setSubscricoes(utilizadores.get(i).getSubscricoes());
                 System.out.println("Utilizador autenticado");
                 return true;
             }
