@@ -1,5 +1,3 @@
-package ServidorBackup;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -24,7 +22,7 @@ public class Backup {
     	// Create the list of threads where each client will be added
     	ArrayList<Interface> userThreads = new ArrayList<Interface>();
     	
-    	ThreadGroup user_threads = new ThreadGroup;
+    	//ThreadGroup user_threads = new ThreadGroup();
     	
 		while(true) {
 			try {

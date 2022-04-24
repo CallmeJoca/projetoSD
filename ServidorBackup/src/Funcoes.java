@@ -1,12 +1,11 @@
-package ServidorBackup;
-
 import java.io.*;
 import java.util.*;
 
-private static String FICHEIRO_DE_TOPICOS  = "topicos.txt";
-private static String FICHEIRO_DE_NOTICIAS = "noticias.txt";
-
 public class Funcoes {
+	
+	private static final String FICHEIRO_DE_NOTICIAS = "noticias.txt";
+	private static final String FICHEIRO_DE_TOPICOS  = "topicos.txt";
+	
 	// ler uma String a partir do teclado
     public static String lerString () {
         String s = "";

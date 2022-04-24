@@ -1,5 +1,3 @@
-package Servidor;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -18,7 +16,12 @@ public class UserThread extends Thread{
 	@Override
 	public void run() {
 		//Main function of the server
-		Naming.rebind(this.getName(), cliente);
+		try {
+			Naming.rebind(this.getName(), cliente);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		System.out.println("Objeto remoto pronto.");
 		
 	}
