@@ -1,5 +1,3 @@
-package Servidor;
-
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -7,6 +5,11 @@ import java.util.Calendar;
 
 // classe de implementacao da interface 
 public class Implementacao extends UnicastRemoteObject implements Interface {	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Implementacao() throws RemoteException {
 		// buscar os metodos da superclasse
 		super();
@@ -29,6 +32,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 	
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		int existe = 0;
+		@SuppressWarnings("unused")
 		String mensagem = "";
 		// verificar se o topico existe
 		for (int i = 0; i < topicos.size(); i++) {

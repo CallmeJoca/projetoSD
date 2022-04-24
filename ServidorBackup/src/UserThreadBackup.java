@@ -1,10 +1,10 @@
 import java.rmi.*;
 
-public class UserThread extends Thread{
+public class UserThreadBackup extends Thread{
 	
 	Interface cliente;
 	
-	public UserThread(String nome, Interface cliente) {
+	public UserThreadBackup(String nome, Interface cliente) {
 		super(nome);
 		this.cliente = cliente;
 		start();

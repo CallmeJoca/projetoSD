@@ -2,7 +2,11 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 public class Noticia implements Serializable {
-    // para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
     private String topico;
     private String produtor;
     private char [] texto;
