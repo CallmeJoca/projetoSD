@@ -154,4 +154,6 @@ public class Funcoes {
         System.out.println("Utilizador nao encontrado");
         return false;
     }
+    //public static ArrayList<>
+    
 }

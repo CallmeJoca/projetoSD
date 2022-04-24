@@ -2,6 +2,8 @@ import java.util.*;
 import java.rmi.*;
 
 public class Servidor {
+	
+	private static int counter = 0;
 		
 	public static void main(String [] args) {
 		// instalar um gestor de seguranca
@@ -16,16 +18,25 @@ public class Servidor {
 		}
     	
     	// Create the list of threads where each client will be added
-    	ArrayList<Interface> userThreads = new ArrayList<Interface>();
+    	ArrayList<UserThread> userThreads = new ArrayList<UserThread>();
     	
 		while(true) {
 			try {
 				
+				
+				
 	    		// instanciar objeto remoto
-				Interface cliente = new Implementacao();
+				//Interface cliente = new Implementacao();
 	    		
+				String ClientID = "Cliente " + counter;
+				
+				UserThread clientThread = new UserThread(ClientID);
+				
+				counter++;
+				
 	    		// call the daemon to generate the thread
-	    		userThreads.add(cliente);
+	    		userThreads.add(clientThread);
+	    		
 	    		
 	    	} catch (Exception e) {
 	    		System.out.println(e.getMessage());

@@ -4,9 +4,8 @@ public class UserThread extends Thread{
 	
 	Interface cliente;
 	
-	public UserThread(String nome, Interface cliente) {
+	public UserThread(String nome) {
 		super(nome);
-		this.cliente = cliente;
 		start();
 	}
 	
@@ -14,6 +13,9 @@ public class UserThread extends Thread{
 	public void run() {
 		//Main function of the server
 		try {
+			Interface cliente = new Implementacao();
+			
+			
 			Naming.rebind(this.getName(), cliente);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
