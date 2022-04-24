@@ -11,6 +11,7 @@ public class Connection extends Thread {
 		start();
 	}
 	public void run() {
+		Noticia n=new Noticia();
 		try {
 			ObjectOutputStream os=new ObjectOutputStream(S.getOutputStream());
 			os.writeObject("Noticias em arquivo:"+n.toString());
