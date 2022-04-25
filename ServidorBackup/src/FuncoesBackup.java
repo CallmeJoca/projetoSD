@@ -22,7 +22,7 @@ public class FuncoesBackup {
         }
         return noticias;
     }
-
+  
     //check this later
     public static void receberNoticias(ArrayList <Noticia> noticias){
     	ServerSocket ss;
@@ -38,15 +38,15 @@ public class FuncoesBackup {
 			ObjectInputStream lerServidorBackup = new ObjectInputStream(servidorBackup.getInputStream());
 			@SuppressWarnings("unchecked")
 			ArrayList<Noticia> metade = (ArrayList <Noticia>) lerServidorBackup.readObject();
-
+			
 			//write metade to file
 			ObjectOutputStream arquivarNoticias = new ObjectOutputStream(new FileOutputStream(FICHEIRO_DE_ARQUIVO_DE_NOTICIAS));
 			arquivarNoticias.writeObject(metade);
 			arquivarNoticias.close();
-
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
     }
-
+    
 }

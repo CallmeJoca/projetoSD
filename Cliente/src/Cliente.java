@@ -93,8 +93,8 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                 						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
                 						// mes da publicacao
-                						System.out.println("Introduza o mes de publicacao: ");
-                						mesPublicacao = Funcoes.lerInteiro();
+                						System.out.println("Introduza o m�s de publicacao: ");
+                						mesPublicacao = Funcoes.lerInteiro() - 1;
                 						// ano da publicacao
                 						System.out.println("Introduza o ano de publicacao: ");
                 						anoPublicacao = Funcoes.lerInteiro();
