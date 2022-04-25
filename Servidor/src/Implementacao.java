@@ -31,28 +31,15 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 	}
 
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
-		int existe = 0;
-		@SuppressWarnings("unused")
-		String mensagem = "";
-		// verificar se o topico existe
-		for (int i = 0; i < topicos.size(); i++) {
-			if (topicos.get(i).equals(topico)) {
-				// se o topico ja existe, ativa-se a flag e sai-se do ciclo for
-				existe = 1;
-				break;
-			}
-		}
-		if (existe == 1) {
-			// adicionar os dados a notacia
-			Noticia noticia = new Noticia();
-			noticia.setTopico(topico);
-			noticia.setProdutor(produtor);
-			noticia.setTexto(texto);
-			noticia.setData(publicacao);
-			// adicionar a not�cia ao array de noticias
-			noticias.add(noticia);
-		}
-		// retornar o array de noticias - com a nova noticia ou nao
+		// adicionar os dados a noticia
+		Noticia noticia = new Noticia();
+		noticia.setTopico(topico);
+		noticia.setProdutor(produtor);
+		noticia.setTexto(texto);
+		noticia.setData(publicacao);
+		// adicionar a not�cia ao array de noticias
+		noticias.add(noticia);
+		// retornar o array de noticias - com a nova noticia
 		return noticias;
 	}
 

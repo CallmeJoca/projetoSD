@@ -71,6 +71,11 @@ public class Cliente {
                 						// topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
+                                        // se o topico nao existir nao ira conseguir adicionar a noticia
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente! Adicione-o primeiro.");
+                							break;
+                						}
                 						// dia da publicacao
                 						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
