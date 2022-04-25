@@ -1,9 +1,12 @@
 import java.io.*;
 import java.util.*;
+import java.net.*;
 
 public class Funcoes {
 	private static final String FICHEIRO_DE_NOTICIAS = "noticias.txt";
 	private static final String FICHEIRO_DE_TOPICOS  = "topicos.txt";
+	private static final String IP   = "127.0.0.1";
+	private static final int    PORT = 2222;
 	
 	// ler uma String a partir do teclado
     public static String lerString () {
@@ -154,4 +157,21 @@ public class Funcoes {
         System.out.println("Utilizador nao encontrado");
         return false;
     }
+    
+    public static void arquivarNoticias(ArrayList <Noticia> noticias){
+    	
+    	ArrayList<Noticia> metade = (ArrayList<Noticia>) noticias.subList(0, noticias.size()/2);
+    	Socket servidorBackup;
+		try {
+			servidorBackup = new Socket(IP, PORT);
+			ObjectOutputStream escreverServidorBackup = new ObjectOutputStream(servidorBackup.getOutputStream());
+			escreverServidorBackup.writeObject(metade);
+			System.out.println("Arquivado com sucesso");
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+    	
+    }
+    
 }
