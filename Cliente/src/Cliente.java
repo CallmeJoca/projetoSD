@@ -46,6 +46,7 @@ public class Cliente {
                                 verificacao = Funcoes.criarUtilizador(utilizadores, user);
                             }
                         }
+                        subscricoes = user.getSubscricoes();
                         // verificar o tipo de cliente
                         if (user.getTipo().equals("Produtor")) {
                         	// fazer as operacoes permitidas a um cliente Produtor
@@ -126,6 +127,9 @@ public class Cliente {
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
                 						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
+                                        user.setSubscricoes(subscricoes);
+                						utilizadores = Funcoes.setSubscricoesUtlizador(utilizadores, user);
+                						Funcoes.escreverFicheiroUtilizadores(utilizadores);
                 						break;
                 					case 2:
                 						// consultar noticias de um dado topico num intervalo de tempo
