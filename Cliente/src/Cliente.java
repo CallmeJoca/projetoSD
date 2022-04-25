@@ -71,7 +71,7 @@ public class Cliente {
                 						// topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
-                                        // se o topico nao existir nao ira conseguir adicionar a noticia
+                						// se o topico nao existir nao ira conseguir adicionar a noticia
                 						if(topicos.contains(topico) == false) {
                 							System.out.println("Topico inexistente! Adicione-o primeiro.");
                 							break;
@@ -140,16 +140,21 @@ public class Cliente {
                 						// consultar noticias de um dado topico num intervalo de tempo
                                         System.out.println("Introduza o topico: ");
                                         topico = Funcoes.lerString();
+                                        // se o topico nao existir cancela a operacao
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente!");
+                							break;
+                						}
                                         System.out.println("Introduza o dia da data inicial: ");
                                         diaInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o mes da data inicial: ");
-                                        mesInicio = Funcoes.lerInteiro();
+                                        mesInicio = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data inicial: ");
                                         anoInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o dia da data final: ");
                                         diaFim = Funcoes.lerInteiro();
                                         System.out.println("Introduza o mes da data final: ");
-                                        mesFim = Funcoes.lerInteiro();
+                                        mesFim = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
                                         // adicionar as datas a objetos do tipo Calendar
@@ -191,16 +196,21 @@ public class Cliente {
                                 	// consultar noticias de um dado topico num intervalo de tempo
                                     System.out.println("Introduza o topico: ");
                                     topico = Funcoes.lerString();
+                                    // se o topico nao existir cancela a operacao
+            						if(topicos.contains(topico) == false) {
+            							System.out.println("Topico inexistente!");
+            							break;
+            						}
                                     System.out.println("Introduza o dia da data inicial: ");
                                     diaInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o mes da data inicial: ");
-                                    mesInicio = Funcoes.lerInteiro();
+                                    mesInicio = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data inicial: ");
                                     anoInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o dia da data final: ");
                                     diaFim = Funcoes.lerInteiro();
                                     System.out.println("Introduza o mes da data final: ");
-                                    mesFim = Funcoes.lerInteiro();
+                                    mesFim = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
                                     // adicionar as datas a objetos do tipo Calendar
