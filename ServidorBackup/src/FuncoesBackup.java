@@ -4,11 +4,11 @@ import java.net.Socket;
 import java.util.*;
 
 public class FuncoesBackup {
-
+	
 	private static final String FICHEIRO_DE_ARQUIVO_DE_NOTICIAS = "arquivoNoticias.txt";
 	private static final String IP   = "127.0.0.1";
 	private static final int    PORT = 1100;
-
+	
     // abrir os ficheiros com os registos de noticias
     @SuppressWarnings("unchecked")
 	public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
@@ -22,7 +22,7 @@ public class FuncoesBackup {
         }
         return noticias;
     }
-
+  
     //check this later
     public static void receberNoticias(ArrayList <Noticia> noticias){
     	ServerSocket ss;
@@ -38,15 +38,15 @@ public class FuncoesBackup {
 			ObjectInputStream lerServidorBackup = new ObjectInputStream(servidorBackup.getInputStream());
 			@SuppressWarnings("unchecked")
 			ArrayList<Noticia> metade = (ArrayList <Noticia>) lerServidorBackup.readObject();
-
+			
 			//write metade to file
 			ObjectOutputStream arquivarNoticias = new ObjectOutputStream(new FileOutputStream(FICHEIRO_DE_ARQUIVO_DE_NOTICIAS));
 			arquivarNoticias.writeObject(metade);
 			arquivarNoticias.close();
-
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
     }
-
+    
 }

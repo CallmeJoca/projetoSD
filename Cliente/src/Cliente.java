@@ -1,23 +1,11 @@
 import java.util.*;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
-public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
-    public Cliente() throws RemoteException {
-    	// buscar metodos da superclasse
-		super();
-	}
-
-    // metodo remoto de callback
-    public void callback (String topico) throws RemoteException {
-		System.out.println("H� uma nova not�cia subordinada ao t�pico " + topico + ". Pesquise para ver.");
-	}
-
-	public static void main(String [] args) {
+public class Cliente {
+    public static void main(String [] args) {
         int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
-        char [] textoAuxiliar = new char [180];
+        char [] textoAuxiliar;
         char [] noticia = new char [180];
         Utilizador user = new Utilizador();
         Noticia ultimaNoticia = new Noticia();
@@ -33,7 +21,6 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
 		try {
 			// ligar o cliente ao servidor
 			Interface objetoServidor = (Interface) Naming.lookup("Servidor");
-			Cliente c = new Cliente();
             // abrir os ficheiros de texto
             utilizadores = Funcoes.abrirFicheiroUtilizadores(utilizadores);
             topicos = Funcoes.abrirFicheiroTopicos(topicos);
@@ -93,8 +80,8 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                 						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
                 						// mes da publicacao
-                						System.out.println("Introduza o mes de publicacao: ");
-                						mesPublicacao = Funcoes.lerInteiro();
+                						System.out.println("Introduza o m�s de publicacao: ");
+                						mesPublicacao = Funcoes.lerInteiro() - 1;
                 						// ano da publicacao
                 						System.out.println("Introduza o ano de publicacao: ");
                 						anoPublicacao = Funcoes.lerInteiro();
