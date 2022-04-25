@@ -5,10 +5,10 @@ import java.util.*;
 
 public class FuncoesBackup {
 	
-	private static final String FICHEIRO_DE_ARQUIVO_DE_NOTICIAS     = "arquivoNoticias.txt";
+	private static final String FICHEIRO_DE_ARQUIVO_DE_NOTICIAS = "arquivoNoticias.txt";
 	private static final String IP   = "127.0.0.1";
 	private static final int    PORT = 1100;
-    
+	
     // abrir os ficheiros com os registos de noticias
     @SuppressWarnings("unchecked")
 	public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
@@ -22,7 +22,7 @@ public class FuncoesBackup {
         }
         return noticias;
     }
-    
+  
     //check this later
     public static void receberNoticias(ArrayList <Noticia> noticias){
     	ServerSocket ss;

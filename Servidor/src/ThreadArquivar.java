@@ -7,7 +7,6 @@ public class ThreadArquivar extends Thread {
 	private int HALFSIZE;
 	
 	public ThreadArquivar() {
-		
 		super();
 		start();
 	}
@@ -18,6 +17,8 @@ public class ThreadArquivar extends Thread {
 		
 		noticias = Funcoes.abrirFicheiroNoticias(noticias);
 		
+		topicos = 
+		
 		try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(CONFIG));
             HALFSIZE = (int) ois.readObject();
@@ -26,6 +27,11 @@ public class ThreadArquivar extends Thread {
             System.out.println("Erro de servidor: " +e.getMessage());
         }
 		while(true) {
+			
+			for(int i = 0; i < noticias.size(); i++) {
+				
+			}
+			
 			if(noticias.size() >= HALFSIZE) {
 				//Main call of this thread. It's responsible for writing to the remote server
 				Funcoes.arquivarNoticias(noticias);

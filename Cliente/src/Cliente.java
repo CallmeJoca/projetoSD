@@ -1,23 +1,11 @@
 import java.util.*;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
-public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
-    public Cliente() throws RemoteException {
-    	// buscar metodos da superclasse
-		super();
-	}
-    
-    // metodo remoto de callback
-    public void callback (String topico) throws RemoteException {
-		System.out.println("Há uma nova notícia subordinada ao tópico " + topico + ". Pesquise para ver.");
-	}
-
-	public static void main(String [] args) {
+public class Cliente {
+    public static void main(String [] args) {
         int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
-        char [] textoAuxiliar = new char [180];
+        char [] textoAuxiliar;
         char [] noticia = new char [180];
         Utilizador user = new Utilizador();
         Noticia ultimaNoticia = new Noticia();
@@ -33,7 +21,6 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
 		try {
 			// ligar o cliente ao servidor
 			Interface objetoServidor = (Interface) Naming.lookup("Servidor");
-			Cliente c = new Cliente();
             // abrir os ficheiros de texto
             utilizadores = Funcoes.abrirFicheiroUtilizadores(utilizadores);
             topicos = Funcoes.abrirFicheiroTopicos(topicos);
@@ -59,6 +46,7 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                                 verificacao = Funcoes.criarUtilizador(utilizadores, user);
                             }
                         }
+                        subscricoes = user.getSubscricoes();
                         // verificar o tipo de cliente
                         if (user.getTipo().equals("Produtor")) {
                         	// fazer as operacoes permitidas a um cliente Produtor
@@ -83,16 +71,22 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                 						// topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
+                						// se o topico nao existir nao ira conseguir adicionar a noticia
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente! Adicione-o primeiro.");
+                							break;
+                						}
                 						// dia da publicacao
                 						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
                 						// mes da publicacao
-                						System.out.println("Introduza o mes de publicacao: ");
-                						mesPublicacao = Funcoes.lerInteiro();
+                						System.out.println("Introduza o mï¿½s de publicacao: ");
+                						mesPublicacao = Funcoes.lerInteiro() - 1;
                 						// ano da publicacao
                 						System.out.println("Introduza o ano de publicacao: ");
                 						anoPublicacao = Funcoes.lerInteiro();
                 						// introduzir a data num objeto do tipo Calendar
+                                        publicacao.clear();
                 				        publicacao.set(anoPublicacao, mesPublicacao, diaPublicacao);
                 						// corpo da noticia
                 						System.out.println("Introduza o texto da noticia: ");
@@ -101,7 +95,7 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                 						// transformar a String para um array de carateres auxiliar
                 				        textoAuxiliar = texto.toCharArray();
                 				        // passar os carateres para o array de carateres final, com limite de 180 posicoes (carateres)
-                				        for (int i = 0; i < 180; i++) {
+                				        for (int i = 0; i < textoAuxiliar.length; i++) {
                 				            noticia[i] = textoAuxiliar[i];
                 				        }
                 						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
@@ -138,21 +132,29 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
                 						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
+                                        user.setSubscricoes(subscricoes);
+                						utilizadores = Funcoes.setSubscricoesUtlizador(utilizadores, user);
+                						Funcoes.escreverFicheiroUtilizadores(utilizadores);
                 						break;
                 					case 2:
                 						// consultar noticias de um dado topico num intervalo de tempo
                                         System.out.println("Introduza o topico: ");
                                         topico = Funcoes.lerString();
+                                        // se o topico nao existir cancela a operacao
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente!");
+                							break;
+                						}
                                         System.out.println("Introduza o dia da data inicial: ");
                                         diaInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o mes da data inicial: ");
-                                        mesInicio = Funcoes.lerInteiro();
+                                        mesInicio = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data inicial: ");
                                         anoInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o dia da data final: ");
                                         diaFim = Funcoes.lerInteiro();
                                         System.out.println("Introduza o mes da data final: ");
-                                        mesFim = Funcoes.lerInteiro();
+                                        mesFim = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
                                         // adicionar as datas a objetos do tipo Calendar
@@ -194,16 +196,21 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                                 	// consultar noticias de um dado topico num intervalo de tempo
                                     System.out.println("Introduza o topico: ");
                                     topico = Funcoes.lerString();
+                                    // se o topico nao existir cancela a operacao
+            						if(topicos.contains(topico) == false) {
+            							System.out.println("Topico inexistente!");
+            							break;
+            						}
                                     System.out.println("Introduza o dia da data inicial: ");
                                     diaInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o mes da data inicial: ");
-                                    mesInicio = Funcoes.lerInteiro();
+                                    mesInicio = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data inicial: ");
                                     anoInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o dia da data final: ");
                                     diaFim = Funcoes.lerInteiro();
                                     System.out.println("Introduza o mes da data final: ");
-                                    mesFim = Funcoes.lerInteiro();
+                                    mesFim = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
                                     // adicionar as datas a objetos do tipo Calendar
