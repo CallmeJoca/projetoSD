@@ -51,8 +51,14 @@ public class Noticia implements Serializable {
         this.data = data;
     }
 
-    @Override
+	@SuppressWarnings("static-access")
+	@Override
 	public String toString() {
-        return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.get(data.DAY_OF_MONTH) + "/" + (data.get(data.MONTH) + 1) + "/"  + data.get(data.YEAR) + "]\n";
+		String s = "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.get(data.DAY_OF_MONTH) + "/" + (data.get(data.MONTH) + 1) + "/"  + data.get(data.YEAR) + "]\n" + ", Texto: ";// + Arrays.toString(texto) + "\n\n";
+		for(int i = 0; i < texto.length; i++) {
+			s = s + texto[i];
+		}
+		s = s + "\n";
+		return s;
 	}
 }
