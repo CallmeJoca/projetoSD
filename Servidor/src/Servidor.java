@@ -2,13 +2,13 @@ import java.util.*;
 import java.rmi.*;
 
 public class Servidor {
-	
-	private static int counter = 0;
 		
+	@SuppressWarnings({ "removal", "deprecation" })
 	public static void main(String [] args) {
 		// instalar um gestor de seguranca
     	System.setSecurityManager(new SecurityManager());
     	System.out.println("Servidor Principal a Inicializar\n");
+    	int counter = 0;
     	
     	try {
 			// inicializar a execucao do registo no porto desejado

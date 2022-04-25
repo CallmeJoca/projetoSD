@@ -17,6 +17,8 @@ public class Backup {
 			System.out.println(e.getMessage());
 		}
     	
+    	ThreadArquivar ta = new ThreadArquivar();
+    	
     	// Create the list of threads where each client will be added
     	ArrayList<ThreadArquivar> userThreads = new ArrayList<ThreadArquivar>();
     	
@@ -26,6 +28,7 @@ public class Backup {
 			Interface cliente = new Implementacao();
 			// registar o objeto remoto
     		Naming.rebind("Backup", cliente);
+    		
     		while (true) {
     			// adicionar o cliente conectado a uma nova thread
 				clientThread = new ThreadArquivar();
