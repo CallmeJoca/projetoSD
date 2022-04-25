@@ -99,7 +99,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		for (int i = noticias.size()-1; i >= 0; i--) {
 			if (noticias.get(i).getTopico().equals(topico)) {
 				// se o topico for igual ao passado em parametro, entao verifica se a DATA é mais recente. Se for mais recente, esta fica guardada.
-				if(noticias.get(i).getData().get(noticias.get(i).getData().YEAR) > dataAux.get(dataAux.YEAR) ) {
+				if(noticias.get(i).getData().compareTo(dataAux) >= 0) {
 					// guarda a data para verificar as proximas noticias
 					dataAux.set(noticias.get(i).getData().get(noticias.get(i).getData().YEAR), noticias.get(i).getData().get(noticias.get(i).getData().MONTH), noticias.get(i).getData().get(noticias.get(i).getData().DAY_OF_MONTH));
 					// guarda os dados da noticia na Noticia auxiliar
@@ -107,28 +107,6 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 					auxiliar.setProdutor(noticias.get(i).getProdutor());
 					auxiliar.setTexto(noticias.get(i).getTexto());
 					auxiliar.setData(noticias.get(i).getData());
-
-				}else if(noticias.get(i).getData().get(noticias.get(i).getData().YEAR) == dataAux.get(dataAux.YEAR) ){
-					if(noticias.get(i).getData().get(noticias.get(i).getData().MONTH) > dataAux.get(dataAux.MONTH) ) {
-						// guarda a data para verificar as proximas noticias
-						dataAux.set(noticias.get(i).getData().get(noticias.get(i).getData().YEAR), noticias.get(i).getData().get(noticias.get(i).getData().MONTH), noticias.get(i).getData().get(noticias.get(i).getData().DAY_OF_MONTH));
-						// guarda os dados da noticia na Noticia auxiliar
-						auxiliar.setTopico(noticias.get(i).getTopico());
-						auxiliar.setProdutor(noticias.get(i).getProdutor());
-						auxiliar.setTexto(noticias.get(i).getTexto());
-						auxiliar.setData(noticias.get(i).getData());
-
-					}else if(noticias.get(i).getData().get(noticias.get(i).getData().MONTH) == dataAux.get(dataAux.MONTH)){
-						if(noticias.get(i).getData().get(noticias.get(i).getData().DAY_OF_MONTH) >= dataAux.get(dataAux.DAY_OF_MONTH) ) {
-							// guarda a data para verificar as proximas noticias
-							dataAux.set(noticias.get(i).getData().get(noticias.get(i).getData().YEAR), noticias.get(i).getData().get(noticias.get(i).getData().MONTH), noticias.get(i).getData().get(noticias.get(i).getData().DAY_OF_MONTH));
-							// guarda os dados da noticia na Noticia auxiliar
-							auxiliar.setTopico(noticias.get(i).getTopico());
-							auxiliar.setProdutor(noticias.get(i).getProdutor());
-							auxiliar.setTexto(noticias.get(i).getTexto());
-							auxiliar.setData(noticias.get(i).getData());
-						}
-					}
 				}
 			}
 		}
