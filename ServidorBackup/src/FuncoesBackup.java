@@ -1,10 +1,14 @@
 import java.io.*;
+import java.net.Socket;
 import java.util.*;
 
 public class FuncoesBackup {
 	
-	private static final String FICHEIRO_DE_NOTICIAS = "noticias.txt";
-	private static final String FICHEIRO_DE_TOPICOS  = "topicos.txt";
+	private static final String FICHEIRO_DE_ARQUIVO_DE_NOTICIAS     = "arquivoNoticias.txt";
+	private static final String FICHEIRO_DE_ARQUIVO_DE_TOPICOS      = "arquivoTopicos.txt";
+	private static final String FICHEIRO_DE_ARQUIVO_DE_UTILIZADORES = "arquivoUtilizadores.txt";
+	private static final String IP   = "127.0.0.1";
+	private static final int    PORT = 2222;
 	
 	// ler uma String a partir do teclado
     public static String lerString () {
@@ -34,7 +38,7 @@ public class FuncoesBackup {
 	public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
         // abrir o ficheiro com os dados dos utilizadores ja registados
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("utilizadores.txt"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_ARQUIVO_DE_UTILIZADORES));
             utilizadores = (ArrayList <Utilizador>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -48,7 +52,7 @@ public class FuncoesBackup {
 	public static ArrayList <String> abrirFicheiroTopicos (ArrayList <String> topicos) {
     	// abrir o ficheiro com os t�picos j� registados
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_TOPICOS));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_ARQUIVO_DE_TOPICOS));
             topicos = (ArrayList <String>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -62,7 +66,7 @@ public class FuncoesBackup {
 	public static ArrayList <Noticia> abrirFicheiroNoticias (ArrayList <Noticia> noticias) {
         // abrir o ficheiro com as not�cias j� registadas
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_NOTICIAS));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_ARQUIVO_DE_NOTICIAS));
             noticias = (ArrayList <Noticia>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -101,7 +105,7 @@ public class FuncoesBackup {
 
         // atualizar o ficheiro que cont�m os registos dos utilizadores e fech�-lo
         try {
-            ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream("utilizadores.txt"));
+            ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(FICHEIRO_DE_ARQUIVO_DE_UTILIZADORES));
             oos.writeObject(utilizadores);
             oos.flush();
             oos.close();
@@ -137,4 +141,25 @@ public class FuncoesBackup {
         System.out.println("Utilizador nao encontrado");
         return false;
     }
+    //check this later
+    public static void receberNoticias(ArrayList <Noticia> noticias){
+    	
+    	//ArrayList<Noticia> metade = new ArrayList<Noticia>();
+    	Socket servidorBackup;
+		try {
+			servidorBackup = new Socket(IP, PORT);
+			ObjectInputStream lerServidorBackup = new ObjectInputStream(servidorBackup.getInputStream());
+			@SuppressWarnings("unchecked")
+			ArrayList<Noticia> metade = (ArrayList <Noticia>) lerServidorBackup.readObject();
+			
+			//write metade to file
+			ObjectOutputStream arquivarNoticias = new ObjectOutputStream(new FileOutputStream(FICHEIRO_DE_ARQUIVO_DE_NOTICIAS));
+			arquivarNoticias.writeObject(metade);
+			arquivarNoticias.close();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+    }
+    
 }
