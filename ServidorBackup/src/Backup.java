@@ -17,6 +17,10 @@ public class Backup {
 			System.out.println(e.getMessage());
 		}
     	
+    	ThreadArquivar ta = new ThreadArquivar();
+    	
+    	ta.start();
+    	
     	// Create the list of threads where each client will be added
     	ArrayList<Interface> userThreads = new ArrayList<Interface>();
     	

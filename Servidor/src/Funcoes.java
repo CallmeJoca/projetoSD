@@ -5,6 +5,7 @@ import java.net.*;
 public class Funcoes {
 	private static final String FICHEIRO_DE_NOTICIAS = "noticias.txt";
 	private static final String FICHEIRO_DE_TOPICOS  = "topicos.txt";
+	private static final String FICHEIRO_DE_UTILIZADORES = "utilizadores.txt";
 	private static final String IP   = "127.0.0.1";
 	private static final int    PORT = 2222;
 	
@@ -36,7 +37,7 @@ public class Funcoes {
 	public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
         // abrir o ficheiro com os dados dos utilizadores ja registados
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("utilizadores.txt"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_UTILIZADORES));
             utilizadores = (ArrayList <Utilizador>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -121,7 +122,7 @@ public class Funcoes {
 
         // atualizar o ficheiro que contem os registos dos utilizadores e fecha-lo
         try {
-            ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream("utilizadores.txt"));
+            ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(FICHEIRO_DE_UTILIZADORES));
             oos.writeObject(utilizadores);
             oos.flush();
             oos.close();
@@ -171,7 +172,6 @@ public class Funcoes {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-    	
     }
     
 }
