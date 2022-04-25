@@ -11,29 +11,29 @@ public class Backup {
     	
     	try {
 			// inicializar a execucao do registo no porto desejado
-			java.rmi.registry.LocateRegistry.createRegistry(1099);
+			java.rmi.registry.LocateRegistry.createRegistry(1100);
     		System.out.println("Registo RMI pronto.");
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
 		}
     	
     	// Create the list of threads where each client will be added
-    	ArrayList<Interface> userThreads = new ArrayList<Interface>();
+    	ArrayList<ThreadArquivar> userThreads = new ArrayList<ThreadArquivar>();
     	
-    	//ThreadGroup user_threads = new ThreadGroup();
-    	
-		while(true) {
-			try {
-				
-	    		// instanciar objeto remoto
-				Interface cliente = new Implementacao();
-	    		
-	    		// call the daemon to generate the thread
-	    		userThreads.add(cliente);
-	    		
-	    	} catch (Exception e) {
-	    		System.out.println(e.getMessage());
-	    	}
-		}
+		try {
+			ThreadArquivar clientThread;
+    		// instanciar objeto remoto
+			Interface cliente = new Implementacao();
+			// registar o objeto remoto
+    		Naming.rebind("Backup", cliente);
+    		while (true) {
+    			// adicionar o cliente conectado a uma nova thread
+				clientThread = new ThreadArquivar();
+				// adicionar a thread a um ArrayList de threads para se saber os clientes ativos
+				userThreads.add(clientThread);
+    		}
+    	} catch (Exception e) {
+    		System.out.println(e.getMessage());
+    	}
     }
 }

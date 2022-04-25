@@ -2,10 +2,13 @@ import java.util.*;
 import java.rmi.*;
 
 public class Servidor {
+	
+	private static int counter = 0;
 		
 	public static void main(String [] args) {
 		// instalar um gestor de seguranca
     	System.setSecurityManager(new SecurityManager());
+    	System.out.println("Servidor Principal a Inicializar\n");
     	
     	try {
 			// inicializar a execucao do registo no porto desejado
@@ -16,20 +19,22 @@ public class Servidor {
 		}
     	
     	// Create the list of threads where each client will be added
-    	ArrayList<Interface> userThreads = new ArrayList<Interface>();
-    	
-		while(true) {
-			try {
-				
-	    		// instanciar objeto remoto
-				Interface cliente = new Implementacao();
-	    		
-	    		// call the daemon to generate the thread
-	    		userThreads.add(cliente);
-	    		
-	    	} catch (Exception e) {
-	    		System.out.println(e.getMessage());
-	    	}
-		}
-    }
+    	ArrayList<UserThread> userThreads = new ArrayList<UserThread>();
+		
+		try {
+			UserThread clientThread;
+			// instanciar objeto remoto
+			Interface cliente = new Implementacao();
+			// registar o objeto remoto
+			Naming.rebind("Servidor", cliente);
+			while (true) {
+				// adicionar o cliente conectado a uma nova thread
+				clientThread = new UserThread(cliente);
+				// adicionar a thread a um ArrayList de threads para se saber os clientes ativos
+				userThreads.add(clientThread);
+			}
+    	} catch (Exception e) {
+    		System.out.println(e.getMessage());
+    	}
+	}
 }

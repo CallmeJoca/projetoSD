@@ -1,7 +1,6 @@
 import java.util.*;
 import java.rmi.Naming;
 
-// classe inicial do cliente
 public class Cliente {
     public static void main(String [] args) {
         int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
@@ -27,7 +26,7 @@ public class Cliente {
             topicos = Funcoes.abrirFicheiroTopicos(topicos);
             noticias = Funcoes.abrirFicheiroNoticias(noticias);
             // iniciar cli com o utilizador
-            System.out.println("Bem-vindo ao seu servidor de not�cias.\n\nDeseja autenticar-se?\n1 - Sim\n2 - N�o");
+            System.out.println("Bem-vindo ao seu servidor de noticias.\n\nDeseja autenticar-se?\n1 - Sim\n2 - Nao");
             while (true) {
                 opcao = Funcoes.lerInteiro();
                 if (opcao == 1 || opcao == 2) {
@@ -47,63 +46,70 @@ public class Cliente {
                                 verificacao = Funcoes.criarUtilizador(utilizadores, user);
                             }
                         }
+                        subscricoes = user.getSubscricoes();
                         // verificar o tipo de cliente
                         if (user.getTipo().equals("Produtor")) {
-                        	// fazer as opera��es permitidas a um cliente Produtor
-                        	// menu de opera��es para o cliente Produtor
+                        	// fazer as operacoes permitidas a um cliente Produtor
+                        	// menu de operacoes para o cliente Produtor
                 			do {
-                				System.out.println("1 - Adicionar t�pico\n2 - Consultar t�picos existentes\n3 - Inserir not�cia\n4 - Consultar todas as not�cias publicadas\n0 - Sair");
+                				System.out.println("1 - Adicionar topico\n2 - Consultar topicos existentes\n3 - Inserir noticia\n4 - Consultar todas as noticias publicadas\n0 - Sair");
                 				opcao = Funcoes.lerInteiro();
                 				switch (opcao) {
                 					case 1:
-                						// adicionar um t�pico
-                						System.out.println("Introduza o t�pico: ");
+                						// adicionar um topico
+                						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
                 						topicos = objetoServidor.AdicionarTopico(topico, topicos);
                                         Funcoes.escreverFicheiroTopicos(topicos);
                                         break;
                 					case 2:
-                						// consultar a lista de t�picos dispon�veis
-                						System.out.println("Lista de t�picos dispon�veis:\n" + topicos);
+                						// consultar a lista de topicos disponiveis
+                						System.out.println("Lista de topicos disponiveis:\n" + topicos);
                 						break;
                 					case 3:
-                						// inserir uma not�cia subordinada a um t�pico
-                						// t�pico
-                						System.out.println("Introduza o t�pico: ");
+                						// inserir uma noticia subordinada a um topico
+                						// topico
+                						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
-                						// dia da publica��o
-                						System.out.println("Introduza o dia de publica��o: ");
+                						// se o topico nao existir nao ira conseguir adicionar a noticia
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente! Adicione-o primeiro.");
+                							break;
+                						}
+                						// dia da publicacao
+                						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
-                						// m�s da publica��o
-                						System.out.println("Introduza o m�s de publica��o: ");
-                						mesPublicacao = Funcoes.lerInteiro();
-                						// ano da publica��o
-                						System.out.println("Introduza o ano de publica��o: ");
+                						// mes da publicacao
+                						System.out.println("Introduza o m�s de publicacao: ");
+                						mesPublicacao = Funcoes.lerInteiro() - 1;
+                						// ano da publicacao
+                						System.out.println("Introduza o ano de publicacao: ");
                 						anoPublicacao = Funcoes.lerInteiro();
                 						// introduzir a data num objeto do tipo Calendar
+                                        publicacao.clear();
                 				        publicacao.set(anoPublicacao, mesPublicacao, diaPublicacao);
-                						// corpo da not�cia
-                						System.out.println("Introduza o texto da not�cia: ");
-                						// ler uma String com o corpo da not�cia
+                						// corpo da noticia
+                						System.out.println("Introduza o texto da noticia: ");
+                						// ler uma String com o corpo da noticia
                 						texto = Funcoes.lerString();
                 						// transformar a String para um array de carateres auxiliar
                 				        textoAuxiliar = texto.toCharArray();
-                				        // passar os carateres para o array de carateres final, com limite de 180 posi��es (carateres)
-                				        for (int i = 0; i < 180; i++) {
+                				        // passar os carateres para o array de carateres final, com limite de 180 posicoes (carateres)
+                				        for (int i = 0; i < textoAuxiliar.length; i++) {
                 				            noticia[i] = textoAuxiliar[i];
                 				        }
                 						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
                                         Funcoes.escreverFicheiroNoticias(noticias);
                                         break;
                 					case 4:
-                						// consultar todas as not�cias publicadas at� ao momento
+                						// consultar todas as noticias publicadas ate ao momento
                 						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
-                						// se o ArrayList auxiliar estiver vazio, n�o h� not�cias publicadas
+                						// se o ArrayList auxiliar estiver vazio, nao ha noticias publicadas
                 						if (auxiliar == null) {
-                							System.out.println("O produtor ainda n�o tem not�cias publicadas.");
-                						// se o ArrayList auxiliar tiver not�cias, estas s�o apresentadas ao utilizador
+                							System.out.println("O produtor ainda nao tem noticias publicadas.");
+                						// se o ArrayList auxiliar tiver noticias, estas sao apresentadas ao utilizador
                 						} else {
-                							System.out.println("Not�cias publicadas:\n" + auxiliar);
+                							System.out.println("Noticias publicadas:\n" + auxiliar);
                 						}
                 						break;
                 					case 0:
@@ -111,37 +117,44 @@ public class Cliente {
                                     	System.out.println("Esperamos o seu regresso!");
                                         System.exit(0);
                 					default:
-                						System.out.println("Introduza um valor v�lido.");
+                						System.out.println("Introduza um valor valido.");
                 				}
                 			} while (opcao != 0);
                         } else if (user.getTipo().equals("Consumidor")) {
-                        	// fazer as opera��es permitidas a um cliente Consumidor
-                        	// menu de opera��es para o cliente Consumidor
+                        	// fazer as operacoes permitidas a um cliente Consumidor
+                        	// menu de operacoes para o cliente Consumidor
                         	do {
-                				System.out.println("1 - Subscrever t�pico\n2 - Consultar not�cias de um dado t�pico num dado intervalo de tempo\n3 - Consultar a �ltima not�cia de um dado t�pico\n0 - Sair");
+                				System.out.println("1 - Subscrever topico\n2 - Consultar noticias de um dado topico num dado intervalo de tempo\n3 - Consultar a ultima noticia de um dado topico\n0 - Sair");
                 				opcao = Funcoes.lerInteiro();
                 				switch (opcao) {
                 					case 1:
-                						// subscrever um t�pico
-                						// SER� NECESS�RIO COLOCAR UMA OP��O PARA UM CONSUMIDOR PODER CONSULTAR OS T�PICOS DISPON�VEIS PARA SUBSCREVER? DEFENDO QUE SIM
-                						System.out.println("Introduza o t�pico: ");
+                						// subscrever um topico
+                						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
                 						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
+                                        user.setSubscricoes(subscricoes);
+                						utilizadores = Funcoes.setSubscricoesUtlizador(utilizadores, user);
+                						Funcoes.escreverFicheiroUtilizadores(utilizadores);
                 						break;
                 					case 2:
-                						// consultar not�cias de um dado t�pico num intervalo de tempo
-                                        System.out.println("Introduza o t�pico: ");
+                						// consultar noticias de um dado topico num intervalo de tempo
+                                        System.out.println("Introduza o topico: ");
                                         topico = Funcoes.lerString();
+                                        // se o topico nao existir cancela a operacao
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente!");
+                							break;
+                						}
                                         System.out.println("Introduza o dia da data inicial: ");
                                         diaInicio = Funcoes.lerInteiro();
-                                        System.out.println("Introduza o m�s da data inicial: ");
-                                        mesInicio = Funcoes.lerInteiro();
+                                        System.out.println("Introduza o mes da data inicial: ");
+                                        mesInicio = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data inicial: ");
                                         anoInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o dia da data final: ");
                                         diaFim = Funcoes.lerInteiro();
-                                        System.out.println("Introduza o m�s da data final: ");
-                                        mesFim = Funcoes.lerInteiro();
+                                        System.out.println("Introduza o mes da data final: ");
+                                        mesFim = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
                                         // adicionar as datas a objetos do tipo Calendar
@@ -151,13 +164,13 @@ public class Cliente {
                                         System.out.println(noticiasTempo);
                                         break;
                 					case 3:
-                						// consultar �ltima not�cia de um dado t�pico
-                						System.out.println("Introduza o t�pico: ");
+                						// consultar ultima noticia de um dado topico
+                						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
                 						ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
-                                        // se o t�pico n�o estiver preenchido, ent�o o objeto est� inicializado a null
+                                        // se o topico nao estiver preenchido, entao o objeto esta inicializado a null
                 						if (ultimaNoticia.getTopico().equals("")) {
-                							System.out.println("Ainda n�o h� not�cias subordinadas a esse t�pico.");
+                							System.out.println("Ainda nao ha noticias subordinadas a esse topico.");
                 						} else {
                 							System.out.println(ultimaNoticia);
                 						}
@@ -167,32 +180,37 @@ public class Cliente {
                                     	System.out.println("Esperamos o seu regresso!");
                                         System.exit(0);
                 					default:
-                						System.out.println("Introduza um valor v�lido.");
+                						System.out.println("Introduza um valor valido.");
                 				}
                 			} while (opcao != 0);
                         }
                     }
                     // prosseguir sem autenticar-se
                     if (opcao == 2) {
-                        // menu de opera��es para o cliente n�o autenticado
+                        // menu de operacoes para o cliente nao autenticado
                         do {
-                            System.out.println("1 - Consultar not�cias de um dado t�pico num dado intervalo de tempo\n2 - Consultar a �ltima not�cia de um dado t�pico\n0 - Sair");
+                            System.out.println("1 - Consultar noticias de um dado topico num dado intervalo de tempo\n2 - Consultar a ultima noticia de um dado topico\n0 - Sair");
                             opcao = Funcoes.lerInteiro();
                             switch (opcao) {
                                 case 1:
-                                	// consultar not�cias de um dado t�pico num intervalo de tempo
-                                    System.out.println("Introduza o t�pico: ");
+                                	// consultar noticias de um dado topico num intervalo de tempo
+                                    System.out.println("Introduza o topico: ");
                                     topico = Funcoes.lerString();
+                                    // se o topico nao existir cancela a operacao
+            						if(topicos.contains(topico) == false) {
+            							System.out.println("Topico inexistente!");
+            							break;
+            						}
                                     System.out.println("Introduza o dia da data inicial: ");
                                     diaInicio = Funcoes.lerInteiro();
-                                    System.out.println("Introduza o m�s da data inicial: ");
-                                    mesInicio = Funcoes.lerInteiro();
+                                    System.out.println("Introduza o mes da data inicial: ");
+                                    mesInicio = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data inicial: ");
                                     anoInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o dia da data final: ");
                                     diaFim = Funcoes.lerInteiro();
-                                    System.out.println("Introduza o m�s da data final: ");
-                                    mesFim = Funcoes.lerInteiro();
+                                    System.out.println("Introduza o mes da data final: ");
+                                    mesFim = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
                                     // adicionar as datas a objetos do tipo Calendar
@@ -202,13 +220,13 @@ public class Cliente {
                                     System.out.println(noticiasTempo);
                                     break;
                                 case 2:
-                                	// consultar �ltima not�cia de um dado t�pico
-                                    System.out.println("Introduza o t�pico: ");
+                                	// consultar ultima noticia de um dado tppico
+                                    System.out.println("Introduza o topico: ");
                                     topico = Funcoes.lerString();
                                     ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
-                                    // se o t�pico n�o estiver preenchido, ent�o o objeto est� inicializado a null
+                                    // se o topico nao estiver preenchido, entao o objeto esta inicializado a null
                                     if (ultimaNoticia.getTopico().equals("")) {
-            							System.out.println("Ainda n�o h� not�cias subordinadas a esse t�pico.");
+            							System.out.println("Ainda nao ha noticias subordinadas a esse topico.");
             						} else {
             							System.out.println(ultimaNoticia);
             						}
@@ -218,17 +236,17 @@ public class Cliente {
                                 	System.out.println("Esperamos o seu regresso!");
                                     System.exit(0);
                                 default:
-                                    System.out.println("Introduza um valor v�lido.");
+                                    System.out.println("Introduza um valor valido.");
                             }
                         } while (opcao != 0);
                     }
                 } else {
-                    System.out.println("Introduza uma op��o v�lida.");
+                    System.out.println("Introduza uma opcao valida.");
                 }
             }
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			// caso a liga��o falhe, termina o programa
+			// caso a ligacao falhe, termina o programa
 			System.exit(0);
 		}
 	}
