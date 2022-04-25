@@ -3,10 +3,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-// classe de implementacao da interface 
-public class Implementacao extends UnicastRemoteObject implements Interface {	
+// classe de implementacao da interface
+public class Implementacao extends UnicastRemoteObject implements Interface {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -14,7 +14,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// buscar os metodos da superclasse
 		super();
 	}
-	
+
     // ----- metodos para o cliente Produtor ----- //
 	public ArrayList <String> AdicionarTopico (String topico, ArrayList <String> topicos) throws RemoteException {
 		// verificar se o topico ja existe
@@ -29,7 +29,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// retornar mensagem de sucesso
 		return topicos;
 	}
-	
+
 	@SuppressWarnings("null")
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		int existe = 0;
@@ -58,7 +58,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// retornar o array de noticias - com a nova noticia ou nao
 		return noticias;
 	}
-	
+
 	public ArrayList <Noticia> ConsultarNoticias (String produtor, ArrayList <Noticia> noticias) throws RemoteException {
 		// criar um ArrayList auxiliar para guardar as noticias publicadas de um produtor
 		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
@@ -72,7 +72,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// retornar o ArrayList auxiliar
 		return auxiliar;
 	}
-	
+
     // ----- metodos para o cliente Consumidor ----- //
 	public ArrayList <String> SubscreverTopico (String topico, ArrayList <String> subscricoes) throws RemoteException {
 		// verificar se o topico que se quer subscrever ja esta subscrito ou nao
@@ -87,7 +87,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// retornar o ArrayList de topicos subscritos, com o novo topico acrescentado
 		return subscricoes;
 	}
-	
+
 	public ArrayList <Noticia> ConsultarNoticiasTopico (String topico, Calendar inicio, Calendar fim, ArrayList <Noticia> noticias) throws RemoteException {
 		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
 		for (int i = 0; i < noticias.size(); i++) {
@@ -102,17 +102,31 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// retornar o ArrayList com as noticias de um topico de um determinado intervalo de tempo
 		return auxiliar;
 	}
-	
+
+	// Consulta a Noticia mais recente de um certo topico
+	@SuppressWarnings("static-access")
 	public Noticia ConsultarUltimaNoticia (String topico, ArrayList <Noticia> noticias) throws RemoteException {
 		Noticia auxiliar = new Noticia ();
-		// verificar, do fim para o principio, qual o topico das noticias
-		for (int i = noticias.size(); i > 0; i--) {
-			// se o topico for igual ao passado em parametro, entao retorna a noticia dessa posicao do ArrayList
+		Calendar dataAux = Calendar.getInstance();
+		dataAux.clear();
+		dataAux.set(0, 0, 0);
+
+		// verificar, do fim ao principio, qual o topico das noticias
+		for (int i = noticias.size()-1; i >= 0; i--) {
 			if (noticias.get(i).getTopico().equals(topico)) {
-				return noticias.get(i);
+				// se o topico for igual ao passado em parametro, entao verifica se a DATA é mais recente. Se for mais recente, esta fica guardada.
+				if(noticias.get(i).getData().compareTo(dataAux) >= 0) {
+					// guarda a data para verificar as proximas noticias
+					dataAux.set(noticias.get(i).getData().get(noticias.get(i).getData().YEAR), noticias.get(i).getData().get(noticias.get(i).getData().MONTH), noticias.get(i).getData().get(noticias.get(i).getData().DAY_OF_MONTH));
+					// guarda os dados da noticia na Noticia auxiliar
+					auxiliar.setTopico(noticias.get(i).getTopico());
+					auxiliar.setProdutor(noticias.get(i).getProdutor());
+					auxiliar.setTexto(noticias.get(i).getTexto());
+					auxiliar.setData(noticias.get(i).getData());
+				}
 			}
 		}
-		// se saiu do ciclo for, nao ha noticias sobre aquele topico, logo retorna uma noticia vazia
+		// devolve a Noticia mais recente
 		return auxiliar;
 	}
 }
