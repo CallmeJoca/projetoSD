@@ -180,13 +180,11 @@ public class Funcoes {
     }
 
     public static void arquivarNoticias(ArrayList <Noticia> noticias){
-
-    	ArrayList<Noticia> metade = new ArrayList<Noticia> ();// (ArrayList<Noticia>) noticias.subList(0, noticias.size()/2);
     	Socket servidorBackup;
 		try {
 			servidorBackup = new Socket(IP, PORT);
 			ObjectOutputStream escreverServidorBackup = new ObjectOutputStream(servidorBackup.getOutputStream());
-			escreverServidorBackup.writeObject(metade);
+			escreverServidorBackup.writeObject(noticias);
 			System.out.println("Arquivado com sucesso");
 
 		} catch (Exception e) {
