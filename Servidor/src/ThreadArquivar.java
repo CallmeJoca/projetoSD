@@ -23,7 +23,7 @@ public class ThreadArquivar extends Thread {
             HALFSIZE = (int) ois.readObject();
             ois.close();
         } catch (Exception e) {
-            System.out.println("WHOOPS:"+e.getMessage());
+            System.out.println("Erro de servidor: " +e.getMessage());
         }
 		while(true) {
 			if(noticias.size() >= HALFSIZE) {

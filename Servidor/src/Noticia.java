@@ -53,6 +53,6 @@ public class Noticia implements Serializable {
 
     @Override
 	public String toString() {
-		return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.getTime() + "]\n";
+		return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.getTime() + ", Texto" + String.valueOf(texto) + "]\n";
 	}
 }

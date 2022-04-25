@@ -142,11 +142,12 @@ public class FuncoesBackup {
         System.out.println("Utilizador nao encontrado");
         return false;
     }
+    
     //check this later
     public static void receberNoticias(ArrayList <Noticia> noticias){
     	ServerSocket ss;
     	try {
-            ss = new ServerSocket (5432);
+            ss = new ServerSocket (PORT);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

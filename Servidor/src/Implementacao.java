@@ -49,7 +49,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			noticia.setProdutor(produtor);
 			noticia.setTexto(texto);
 			noticia.setData(publicacao);
-			// adicionar a not�cia ao array de noticias
+			// adicionar a noticia ao array de noticias
 			noticias.add(noticia);
 		}
 		// retornar o array de noticias - com a nova noticia ou nao

@@ -170,7 +170,7 @@ public class Funcoes {
 			System.out.println("Arquivado com sucesso");
 			
 		} catch (Exception e) {
-			System.out.println("THE OTHER WHOOPS: "+e.getMessage());
+			System.out.println(e.getMessage());
 		}
     }
     
