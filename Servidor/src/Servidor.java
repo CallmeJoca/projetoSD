@@ -19,32 +19,19 @@ public class Servidor {
     	
     	ThreadArquivar ta = new ThreadArquivar();
     	
-    	ta.start();
-    	
     	// Create the list of threads where each client will be added
     	ArrayList<UserThread> userThreads = new ArrayList<UserThread>();
-    	
-		while(true) {
-			try {
-				
-				
-				
-	    		// instanciar objeto remoto
-				//Interface cliente = new Implementacao();
-	    		
-				String ClientID = "Cliente " + counter;
-				
-				UserThread clientThread = new UserThread(ClientID);
-				
-				counter++;
-				
-	    		// call the daemon to generate the thread
-	    		userThreads.add(clientThread);
-	    		
-	    		
-	    	} catch (Exception e) {
-	    		System.out.println(e.getMessage());
-	    	}
-		}
-    }
+		
+		try {
+			UserThread clientThread;
+			Interface cliente = new Implementacao();
+			Naming.rebind("Servidor", cliente);
+			while (true) {
+				clientThread = new UserThread(cliente);
+				userThreads.add(clientThread);
+			}
+    	} catch (Exception e) {
+    		System.out.println(e.getMessage());
+    	}
+	}
 }

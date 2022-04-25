@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
@@ -143,7 +144,12 @@ public class FuncoesBackup {
     }
     //check this later
     public static void receberNoticias(ArrayList <Noticia> noticias){
-    	
+    	ServerSocket ss;
+    	try {
+            ss = new ServerSocket (5432);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     	//ArrayList<Noticia> metade = new ArrayList<Noticia>();
     	Socket servidorBackup;
 		try {

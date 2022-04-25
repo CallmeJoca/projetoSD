@@ -161,7 +161,7 @@ public class Funcoes {
     
     public static void arquivarNoticias(ArrayList <Noticia> noticias){
     	
-    	ArrayList<Noticia> metade = (ArrayList<Noticia>) noticias.subList(0, noticias.size()/2);
+    	ArrayList<Noticia> metade = new ArrayList<Noticia> ();// (ArrayList<Noticia>) noticias.subList(0, noticias.size()/2);
     	Socket servidorBackup;
 		try {
 			servidorBackup = new Socket(IP, PORT);
@@ -170,7 +170,7 @@ public class Funcoes {
 			System.out.println("Arquivado com sucesso");
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("THE OTHER WHOOPS: "+e.getMessage());
 		}
     }
     
