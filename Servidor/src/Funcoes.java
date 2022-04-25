@@ -8,7 +8,7 @@ public class Funcoes {
 	private static final String FICHEIRO_DE_UTILIZADORES = "utilizadores.txt";
 	private static final String IP   = "127.0.0.1";
 	private static final int    PORT = 2222;
-	
+
 	// ler uma String a partir do teclado
     public static String lerString () {
         String s = "";
@@ -45,7 +45,27 @@ public class Funcoes {
         }
         return utilizadores;
     }
-    
+
+	// escrever/guardar os utilizadores para o ficheiro
+    public static void escreverFicheiroUtilizadores(ArrayList <Utilizador> utilizadores) {
+    	try {
+			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream("utilizadores.txt"));
+			tOUT.writeObject(utilizadores);
+			tOUT.close();
+		} catch(IOException e) {e.printStackTrace(); }
+    }
+
+    // manter a lista de Utilizadores atualizada com o User, depois de ser alterado as suas subscricoes
+    public static ArrayList <Utilizador> setSubscricoesUtlizador(ArrayList <Utilizador> utilizadores, Utilizador utilizador) {
+    	for (int i = 0; i < utilizadores.size(); i++) {
+            if (utilizadores.get(i).getNome().equals(utilizador.getNome()) && utilizadores.get(i).getPasse().equals(utilizador.getPasse())) {
+            	utilizadores.get(i).setSubscricoes(utilizador.getSubscricoes());
+				break;
+            }
+        }
+    	return utilizadores;
+    }
+
     // abrir os ficheiros com os registos de topicos
     @SuppressWarnings("unchecked")
 	public static ArrayList <String> abrirFicheiroTopicos (ArrayList <String> topicos) {
@@ -158,7 +178,7 @@ public class Funcoes {
         System.out.println("Utilizador nao encontrado");
         return false;
     }
-    
+
     public static void arquivarNoticias(ArrayList <Noticia> noticias){
     	
     	ArrayList<Noticia> metade = new ArrayList<Noticia> ();// (ArrayList<Noticia>) noticias.subList(0, noticias.size()/2);
@@ -168,10 +188,10 @@ public class Funcoes {
 			ObjectOutputStream escreverServidorBackup = new ObjectOutputStream(servidorBackup.getOutputStream());
 			escreverServidorBackup.writeObject(metade);
 			System.out.println("Arquivado com sucesso");
-			
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
     }
-    
+
 }

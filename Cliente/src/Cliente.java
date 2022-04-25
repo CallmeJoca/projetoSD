@@ -46,6 +46,7 @@ public class Cliente {
                                 verificacao = Funcoes.criarUtilizador(utilizadores, user);
                             }
                         }
+                        subscricoes = user.getSubscricoes();
                         // verificar o tipo de cliente
                         if (user.getTipo().equals("Produtor")) {
                         	// fazer as operacoes permitidas a um cliente Produtor
@@ -70,16 +71,22 @@ public class Cliente {
                 						// topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
+                						// se o topico nao existir nao ira conseguir adicionar a noticia
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente! Adicione-o primeiro.");
+                							break;
+                						}
                 						// dia da publicacao
                 						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
                 						// mes da publicacao
                 						System.out.println("Introduza o m�s de publicacao: ");
-                						mesPublicacao = Funcoes.lerInteiro();
+                						mesPublicacao = Funcoes.lerInteiro() - 1;
                 						// ano da publicacao
                 						System.out.println("Introduza o ano de publicacao: ");
                 						anoPublicacao = Funcoes.lerInteiro();
                 						// introduzir a data num objeto do tipo Calendar
+                                        publicacao.clear();
                 				        publicacao.set(anoPublicacao, mesPublicacao, diaPublicacao);
                 						// corpo da noticia
                 						System.out.println("Introduza o texto da noticia: ");
@@ -88,7 +95,7 @@ public class Cliente {
                 						// transformar a String para um array de carateres auxiliar
                 				        textoAuxiliar = texto.toCharArray();
                 				        // passar os carateres para o array de carateres final, com limite de 180 posicoes (carateres)
-                				        for (int i = 0; i < 180; i++) {
+                				        for (int i = 0; i < textoAuxiliar.length; i++) {
                 				            noticia[i] = textoAuxiliar[i];
                 				        }
                 						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
@@ -125,21 +132,29 @@ public class Cliente {
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
                 						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
+                                        user.setSubscricoes(subscricoes);
+                						utilizadores = Funcoes.setSubscricoesUtlizador(utilizadores, user);
+                						Funcoes.escreverFicheiroUtilizadores(utilizadores);
                 						break;
                 					case 2:
                 						// consultar noticias de um dado topico num intervalo de tempo
                                         System.out.println("Introduza o topico: ");
                                         topico = Funcoes.lerString();
+                                        // se o topico nao existir cancela a operacao
+                						if(topicos.contains(topico) == false) {
+                							System.out.println("Topico inexistente!");
+                							break;
+                						}
                                         System.out.println("Introduza o dia da data inicial: ");
                                         diaInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o mes da data inicial: ");
-                                        mesInicio = Funcoes.lerInteiro();
+                                        mesInicio = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data inicial: ");
                                         anoInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o dia da data final: ");
                                         diaFim = Funcoes.lerInteiro();
                                         System.out.println("Introduza o mes da data final: ");
-                                        mesFim = Funcoes.lerInteiro();
+                                        mesFim = Funcoes.lerInteiro() - 1;
                                         System.out.println("Introduza o ano da data final: ");
                                         anoFim = Funcoes.lerInteiro();
                                         // adicionar as datas a objetos do tipo Calendar
@@ -181,16 +196,21 @@ public class Cliente {
                                 	// consultar noticias de um dado topico num intervalo de tempo
                                     System.out.println("Introduza o topico: ");
                                     topico = Funcoes.lerString();
+                                    // se o topico nao existir cancela a operacao
+            						if(topicos.contains(topico) == false) {
+            							System.out.println("Topico inexistente!");
+            							break;
+            						}
                                     System.out.println("Introduza o dia da data inicial: ");
                                     diaInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o mes da data inicial: ");
-                                    mesInicio = Funcoes.lerInteiro();
+                                    mesInicio = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data inicial: ");
                                     anoInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o dia da data final: ");
                                     diaFim = Funcoes.lerInteiro();
                                     System.out.println("Introduza o mes da data final: ");
-                                    mesFim = Funcoes.lerInteiro();
+                                    mesFim = Funcoes.lerInteiro() - 1;
                                     System.out.println("Introduza o ano da data final: ");
                                     anoFim = Funcoes.lerInteiro();
                                     // adicionar as datas a objetos do tipo Calendar
