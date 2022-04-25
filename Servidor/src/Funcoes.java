@@ -180,7 +180,7 @@ public class Funcoes {
     }
 
     public static void arquivarNoticias(ArrayList <Noticia> noticias){
-    	
+
     	ArrayList<Noticia> metade = new ArrayList<Noticia> ();// (ArrayList<Noticia>) noticias.subList(0, noticias.size()/2);
     	Socket servidorBackup;
 		try {
