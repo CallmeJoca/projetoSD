@@ -5,6 +5,7 @@ import java.net.*;
 public class Funcoes {
 	private static final String FICHEIRO_DE_NOTICIAS = "noticias.txt";
 	private static final String FICHEIRO_DE_TOPICOS  = "topicos.txt";
+	private static final String FICHEIRO_DE_UTILIZADORES = "utilizadores.txt";
 	private static final String IP   = "127.0.0.1";
 	private static final int    PORT = 2222;
 	
@@ -36,7 +37,7 @@ public class Funcoes {
 	public static ArrayList <Utilizador> abrirFicheiroUtilizadores (ArrayList <Utilizador> utilizadores) {
         // abrir o ficheiro com os dados dos utilizadores ja registados
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("utilizadores.txt"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHEIRO_DE_UTILIZADORES));
             utilizadores = (ArrayList <Utilizador>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -62,7 +63,7 @@ public class Funcoes {
     // escrever/guardar para o ficheiro
     public static void escreverFicheiroTopicos (ArrayList <String> topicos) {
     	try {
-			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream("topicos.txt"));
+			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream(FICHEIRO_DE_TOPICOS));
 			tOUT.writeObject(topicos);
 			tOUT.close();
 		} catch(IOException e) {e.printStackTrace(); }
@@ -85,7 +86,7 @@ public class Funcoes {
     // escrever/guardar as noticias para o ficheiro
     public static void escreverFicheiroNoticias (ArrayList <Noticia> noticias) {
     	try {
-			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream("noticias.txt"));
+			ObjectOutputStream tOUT = new ObjectOutputStream(new FileOutputStream(FICHEIRO_DE_NOTICIAS));
 			tOUT.writeObject(noticias);
 			tOUT.close();
 		} catch(IOException e) {e.printStackTrace(); }
@@ -121,7 +122,7 @@ public class Funcoes {
 
         // atualizar o ficheiro que cont�m os registos dos utilizadores e fech�-lo
         try {
-            ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream("utilizadores.txt"));
+            ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(FICHEIRO_DE_UTILIZADORES));
             oos.writeObject(utilizadores);
             oos.flush();
             oos.close();
@@ -171,7 +172,6 @@ public class Funcoes {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-    	
     }
     
 }
