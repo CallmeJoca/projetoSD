@@ -16,8 +16,6 @@ public class ThreadArquivo extends Thread{
 			FuncoesBackup.receberNoticias(noticias);
 		}
 		
-		
-		
 	}
 	
 }
