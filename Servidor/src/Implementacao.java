@@ -30,6 +30,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return topicos;
 	}
 	
+	@SuppressWarnings("null")
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		int existe = 0;
 		@SuppressWarnings("unused")
@@ -52,6 +53,8 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 			// adicionar a noticia ao array de noticias
 			noticias.add(noticia);
 		}
+		InterfaceCallback cliente = null;
+		cliente.callback (topico);
 		// retornar o array de noticias - com a nova noticia ou nao
 		return noticias;
 	}
