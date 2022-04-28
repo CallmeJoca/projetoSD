@@ -9,13 +9,13 @@ public class Noticia implements Serializable {
 	// para poder ser escrita num ficheiro, a classe tem de implementar a interface Serializable
     private String topico;
     private String produtor;
-    private char [] texto;
+    private String texto;
     private Calendar data;
 
     public Noticia () {
         topico = "";
         produtor = "";
-        texto = new char [180];
+        texto = "";
         data = Calendar.getInstance();
     }
 
@@ -35,11 +35,11 @@ public class Noticia implements Serializable {
         this.produtor = produtor;
     }
 
-    public char[] getTexto() {
+    public String getTexto() {
         return texto;
     }
 
-    public void setTexto(char[] texto) {
+    public void setTexto(String texto) {
         this.texto = texto;
     }
 
@@ -54,6 +54,6 @@ public class Noticia implements Serializable {
 	@SuppressWarnings("static-access")
 	@Override
 	public String toString() {
-		return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.get(data.DAY_OF_MONTH) + "/" + (data.get(data.MONTH)+1) + "/" + data.get(data.YEAR) + ", Texto: " + String.valueOf(texto) + "]\n";
+		return "Noticia [Topico: " + topico + ", Produtor: " + produtor + ", Data: " + data.get(data.DAY_OF_MONTH) + "/" + (data.get(data.MONTH)+1) + "/" + data.get(data.YEAR) + ", Texto: " + texto + "]\n";
 	}
 }

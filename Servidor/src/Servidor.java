@@ -1,7 +1,18 @@
 import java.util.*;
 import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
 
-public class Servidor {
+public class Servidor extends UnicastRemoteObject implements CallbackServidor {
+	private static CallbackCliente c;
+	
+	public Servidor () throws RemoteException {
+		// buscar metodos da superclasse
+		super();
+	}
+	
+	public void subscrever (String s, CallbackCliente c) {
+		this.c = c;
+	}
 		
 	@SuppressWarnings({ "removal", "deprecation" })
 	public static void main(String [] args) {
@@ -18,11 +29,13 @@ public class Servidor {
 		}
     	
 		try {
-			UserThread clientThread;
+			// inicializar o objeto de callback
+			Servidor servidor = new Servidor();
 			// instanciar objeto remoto
 			Interface cliente = new Implementacao();
 			// registar o objeto remoto
 			Naming.rebind("Servidor", cliente);
+			Naming.rebind("Callback", servidor);
     	} catch (Exception e) {
     		System.out.println(e.getMessage());
     	}

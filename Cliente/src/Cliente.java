@@ -3,7 +3,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
+public class Cliente extends UnicastRemoteObject implements CallbackCliente {
     public Cliente() throws RemoteException {
     	// buscar metodos da superclasse
 		super();
@@ -11,17 +11,15 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
 
     // metodo remoto de callback
     public void callback (String topico) throws RemoteException {
-		System.out.println("H� uma nova not�cia subordinada ao t�pico " + topico + ". Pesquise para ver.");
+		System.out.println("Ha uma nova noticia subordinada ao topico " + topico + ". Pesquise para ver.");
 	}
 
 	public static void main(String [] args) {
         int opcao = -1, diaPublicacao, mesPublicacao, anoPublicacao, diaInicio, diaFim, mesInicio, mesFim, anoInicio, anoFim;
         boolean verificacao = false;
-        char [] textoAuxiliar = new char [180];
-        char [] noticia = new char [180];
         Utilizador user = new Utilizador();
         Noticia ultimaNoticia = new Noticia();
-        String topico, texto;
+        String topico, texto = "";
         Calendar inicio = Calendar.getInstance(), fim = Calendar.getInstance(), publicacao = Calendar.getInstance();
         ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 		ArrayList <String> topicos = new ArrayList <String> ();
@@ -33,7 +31,9 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
 		try {
 			// ligar o cliente ao servidor
 			Interface objetoServidor = (Interface) Naming.lookup("Servidor");
+			CallbackServidor servidor = (CallbackServidor) Naming.lookup("Callback");
 			Cliente c = new Cliente();
+			servidor.subscrever("Cliente", (Cliente) c);
             // abrir os ficheiros de texto
             utilizadores = Funcoes.abrirFicheiroUtilizadores(utilizadores);
             topicos = Funcoes.abrirFicheiroTopicos(topicos);
@@ -104,15 +104,13 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCallback {
                 						// corpo da noticia
                 						System.out.println("Introduza o texto da noticia: ");
                 						// ler uma String com o corpo da noticia
-                						texto = Funcoes.lerString();
-                						// transformar a String para um array de carateres auxiliar
-                				        textoAuxiliar = texto.toCharArray();
-                				        // passar os carateres para o array de carateres final, com limite de 180 posicoes (carateres)
-                				        for (int i = 0; i < textoAuxiliar.length; i++) {
-                				            noticia[i] = textoAuxiliar[i];
-                				        }
-                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, noticia, topicos, noticias);
+                						while (texto.length() > 180) {
+                							texto = Funcoes.lerString();
+                						}
+                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, texto, topicos, noticias);
                                         Funcoes.escreverFicheiroNoticias(noticias);
+                                        // callback para os utilizadores
+                                        c.callback(topico);
                                         break;
                 					case 4:
                 						// consultar todas as noticias publicadas ate ao momento

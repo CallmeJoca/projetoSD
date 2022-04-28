@@ -30,10 +30,8 @@ public class ImplementacaoBackup extends UnicastRemoteObject implements Interfac
 		return topicos;
 	}
 	
-	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
+	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, String texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		int existe = 0;
-		@SuppressWarnings("unused")
-		String mensagem = "";
 		// verificar se o topico existe
 		for (int i = 0; i < topicos.size(); i++) {
 			if (topicos.get(i).equals(topico)) {

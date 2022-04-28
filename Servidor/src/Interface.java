@@ -7,7 +7,7 @@ import java.util.Calendar;
 public interface Interface extends Remote {
 	// metodos para o cliente Produtor
 	public ArrayList <String> AdicionarTopico (String topico, ArrayList <String> topicos) throws RemoteException;
-	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException;
+	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, String texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException;
 	public ArrayList <Noticia> ConsultarNoticias (String produtor, ArrayList <Noticia> noticias) throws RemoteException;
     
 	// metodos para o cliente Consumidor

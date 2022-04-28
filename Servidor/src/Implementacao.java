@@ -30,7 +30,7 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		return topicos;
 	}
 
-	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
+	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, String texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
 		// adicionar os dados a notacia
 		Noticia noticia = new Noticia();
 		noticia.setTopico(topico);
@@ -39,8 +39,6 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		noticia.setData(publicacao);
 		// adicionar a noticia ao array de noticias
 		noticias.add(noticia);
-		InterfaceCallback cliente = null;
-		cliente.callback (topico);//////////////////////////////////////////////////////////////////////////////ERRO// cliente(Null pointer access: The variable cliente can only be null at this location)
 		// retornar o array de noticias - com a nova noticia ou nao
 		return noticias;
 	}
