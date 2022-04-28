@@ -29,31 +29,18 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// retornar mensagem de sucesso
 		return topicos;
 	}
-	@SuppressWarnings("null")
+
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, char [] texto, ArrayList <String> topicos, ArrayList <Noticia> noticias) throws RemoteException {
-		int existe = 0;
-		@SuppressWarnings("unused")
-		String mensagem = "";
-		// verificar se o topico existe
-		for (int i = 0; i < topicos.size(); i++) {
-			if (topicos.get(i).equals(topico)) {
-				// se o topico ja existe, ativa-se a flag e sai-se do ciclo for
-				existe = 1;
-				break;
-			}
-		}
-		if (existe == 1) {
-			// adicionar os dados a notacia
-			Noticia noticia = new Noticia();
-			noticia.setTopico(topico);
-			noticia.setProdutor(produtor);
-			noticia.setTexto(texto);
-			noticia.setData(publicacao);
-			// adicionar a noticia ao array de noticias
-			noticias.add(noticia);
-		}
+		// adicionar os dados a notacia
+		Noticia noticia = new Noticia();
+		noticia.setTopico(topico);
+		noticia.setProdutor(produtor);
+		noticia.setTexto(texto);
+		noticia.setData(publicacao);
+		// adicionar a noticia ao array de noticias
+		noticias.add(noticia);
 		InterfaceCallback cliente = null;
-		cliente.callback (topico);
+		cliente.callback (topico);//////////////////////////////////////////////////////////////////////////////ERRO// cliente(Null pointer access: The variable cliente can only be null at this location)
 		// retornar o array de noticias - com a nova noticia ou nao
 		return noticias;
 	}
