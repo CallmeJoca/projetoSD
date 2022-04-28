@@ -104,9 +104,9 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                 						// corpo da noticia
                 						System.out.println("Introduza o texto da noticia: ");
                 						// ler uma String com o corpo da noticia
-                						while (texto.length() > 180) {
+                						do {
                 							texto = Funcoes.lerString();
-                						}
+                						} while (texto.length() > 180);
                 						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, texto, topicos, noticias);
                                         Funcoes.escreverFicheiroNoticias(noticias);
                                         // callback para os utilizadores
