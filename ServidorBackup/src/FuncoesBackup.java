@@ -7,7 +7,7 @@ public class FuncoesBackup {
 
 	private static final String FICHEIRO_DE_ARQUIVO_DE_NOTICIAS = "arquivoNoticias.txt";
 	private static final String IP   = "127.0.0.1";
-	private static final int    PORT = 1100;
+	private static final int    PORT = 2222;
 
     // abrir os ficheiros com os registos de noticias
     @SuppressWarnings("unchecked")
@@ -25,27 +25,31 @@ public class FuncoesBackup {
   
     //check this later
     public static void receberNoticias(ArrayList <Noticia> noticias){
-    	ServerSocket ss;
+    	
+    	System.out.println("A inicializar sockets para receber noticias");
+    	
+    	ServerSocket ss = null;
     	try {
-            ss = new ServerSocket (PORT);
+            ss = new ServerSocket (PORT); 	
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("ERROR STARTING SERVERSOCKET: "+e.getMessage());
         }
     	//ArrayList<Noticia> metade = new ArrayList<Noticia>();
-    	Socket servidorBackup;
+    	Socket servidorBackup = null;
 		try {
-			servidorBackup = new Socket(IP, PORT);
+			servidorBackup = ss.accept();
 			ObjectInputStream lerServidorBackup = new ObjectInputStream(servidorBackup.getInputStream());
+			System.out.println("A receber noticias");
 			@SuppressWarnings("unchecked")
 			ArrayList<Noticia> metade = (ArrayList <Noticia>) lerServidorBackup.readObject();
-			
 			//write metade to file
 			ObjectOutputStream arquivarNoticias = new ObjectOutputStream(new FileOutputStream(FICHEIRO_DE_ARQUIVO_DE_NOTICIAS));
+			System.out.println("A escrever noticias em " + FICHEIRO_DE_ARQUIVO_DE_NOTICIAS);
 			arquivarNoticias.writeObject(metade);
 			arquivarNoticias.close();
-			
+			servidorBackup.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR READING/WRITING NEWS: "+e.getMessage());
 		}
     }
     

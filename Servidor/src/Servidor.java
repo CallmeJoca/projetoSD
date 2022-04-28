@@ -4,6 +4,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class Servidor extends UnicastRemoteObject implements CallbackServidor {
 	private static CallbackCliente c;
+	private static final int PORT = 1099;
 	
 	public Servidor () throws RemoteException {
 		// buscar metodos da superclasse
@@ -20,9 +21,11 @@ public class Servidor extends UnicastRemoteObject implements CallbackServidor {
     	System.setSecurityManager(new SecurityManager());
     	System.out.println("Servidor Principal a Inicializar\n");
     	
+    	ThreadArquivar ta = new ThreadArquivar();
+    	
     	try {
 			// inicializar a execucao do registo no porto desejado
-			java.rmi.registry.LocateRegistry.createRegistry(1099);
+			java.rmi.registry.LocateRegistry.createRegistry(PORT);
     		System.out.println("Registo RMI pronto.");
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());

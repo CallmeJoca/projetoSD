@@ -3,6 +3,8 @@ import java.rmi.*;
 
 public class Backup {
 		
+	private static final int PORT = 1099;
+	
 	public static void main(String [] args) {
 		
 		// instalar um gestor de seguranca
@@ -11,32 +13,22 @@ public class Backup {
     	
     	try {
 			// inicializar a execucao do registo no porto desejado
-			java.rmi.registry.LocateRegistry.createRegistry(1100);
+			java.rmi.registry.LocateRegistry.createRegistry(PORT);
     		System.out.println("Registo RMI pronto.");
 		} catch (RemoteException e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR STARTING BACKUP RMI:"+e.getMessage());
 		}
     	
-    	ThreadArquivar ta = new ThreadArquivar();
-    	
-    	// Create the list of threads where each client will be added
-    	ArrayList<ThreadArquivar> userThreads = new ArrayList<ThreadArquivar>();
-    	
+    	ThreadArquivo ta = new ThreadArquivo();
+     	
 		try {
-			ThreadArquivar clientThread;
     		// instanciar objeto remoto
 			Interface cliente = new Implementacao();
 			// registar o objeto remoto
     		Naming.rebind("Backup", cliente);
     		
-    		while (true) {
-    			// adicionar o cliente conectado a uma nova thread
-				clientThread = new ThreadArquivar();
-				// adicionar a thread a um ArrayList de threads para se saber os clientes ativos
-				userThreads.add(clientThread);
-    		}
     	} catch (Exception e) {
-    		System.out.println(e.getMessage());
+    		System.out.println("ERROR STARTING BACKUP INTERFACE"+e.getMessage());
     	}
     }
 }

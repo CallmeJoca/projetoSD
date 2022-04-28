@@ -7,7 +7,7 @@ public class Funcoes {
 	private static final String FICHEIRO_DE_TOPICOS  = "topicos.txt";
 	private static final String FICHEIRO_DE_UTILIZADORES = "utilizadores.txt";
 	private static final String IP   = "127.0.0.1";
-	private static final int    PORT = 2222;
+	private static final int    ARCHIVE_PORT = 2222;
 
 	// ler uma String a partir do teclado
     public static String lerString () {
@@ -182,11 +182,11 @@ public class Funcoes {
     public static void arquivarNoticias(ArrayList <Noticia> noticias){
     	Socket servidorBackup;
 		try {
-			servidorBackup = new Socket(IP, PORT);
+			servidorBackup = new Socket(IP, ARCHIVE_PORT);
 			ObjectOutputStream escreverServidorBackup = new ObjectOutputStream(servidorBackup.getOutputStream());
 			escreverServidorBackup.writeObject(noticias);
 			System.out.println("Arquivado com sucesso");
-
+			servidorBackup.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
