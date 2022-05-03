@@ -1,5 +1,3 @@
-import java.rmi.*;
-
 public class UserThread extends Thread{
 	
 	Interface cliente;

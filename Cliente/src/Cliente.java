@@ -1,7 +1,8 @@
-import java.util.*;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Cliente extends UnicastRemoteObject implements CallbackCliente {
     public Cliente() throws RemoteException {
@@ -21,12 +22,12 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
         Noticia ultimaNoticia = new Noticia();
         String topico, texto = "";
         Calendar inicio = Calendar.getInstance(), fim = Calendar.getInstance(), publicacao = Calendar.getInstance();
-        ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
+		ArrayList <Noticia> noticiasTempo = new ArrayList <Noticia> ();
+		ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 		ArrayList <String> topicos = new ArrayList <String> ();
 		ArrayList <Noticia> noticias = new ArrayList <Noticia> ();
 		ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
 		ArrayList <String> subscricoes = new ArrayList <String> ();
-		ArrayList <Noticia> noticiasTempo = new ArrayList <Noticia> ();
 
 		try {
 			// ligar o cliente ao servidor
@@ -34,10 +35,6 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
 			CallbackServidor servidor = (CallbackServidor) Naming.lookup("Callback");
 			Cliente c = new Cliente();
 			servidor.subscrever("Cliente", (Cliente) c);
-            // abrir os ficheiros de texto
-            utilizadores = Funcoes.abrirFicheiroUtilizadores(utilizadores);
-            topicos = Funcoes.abrirFicheiroTopicos(topicos);
-            noticias = Funcoes.abrirFicheiroNoticias(noticias);
             // iniciar cli com o utilizador
             System.out.println("Bem-vindo ao seu servidor de noticias.\n\nDeseja autenticar-se?\n1 - Sim\n2 - Nao");
             while (true) {
@@ -49,17 +46,16 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                         opcao = Funcoes.lerInteiro();
                         if (opcao == 1) {
                             // login
-                        	while (verificacao == false) {
-                                verificacao = Funcoes.verificarUtilizador(utilizadores, user);
+							while (user.getNome().equals("")) {
+                                user = objetoServidor.verificarUtilizador(user);
                             }
                         }
                         if (opcao == 2) {
                             // registar
-                            while (verificacao == false) {
-                                verificacao = Funcoes.criarUtilizador(utilizadores, user);
+                            while (user.getNome().equals("")) {
+                                user = objetoServidor.criarUtilizador(user);
                             }
                         }
-                        subscricoes = user.getSubscricoes();
                         // verificar o tipo de cliente
                         if (user.getTipo().equals("Produtor")) {
                         	// fazer as operacoes permitidas a um cliente Produtor
@@ -72,11 +68,12 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                 						// adicionar um topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
-                						topicos = objetoServidor.AdicionarTopico(topico, topicos);
+                						topicos = objetoServidor.AdicionarTopico(topico);
                                         Funcoes.escreverFicheiroTopicos(topicos);
                                         break;
                 					case 2:
                 						// consultar a lista de topicos disponiveis
+                						topicos = objetoServidor.VerTopicos();
                 						System.out.println("Lista de topicos disponiveis:\n" + topicos);
                 						break;
                 					case 3:
@@ -93,7 +90,7 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                 						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
                 						// mes da publicacao
-                						System.out.println("Introduza o m�s de publicacao: ");
+                						System.out.println("Introduza o mes de publicacao: ");
                 						mesPublicacao = Funcoes.lerInteiro() - 1;
                 						// ano da publicacao
                 						System.out.println("Introduza o ano de publicacao: ");
@@ -107,14 +104,14 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                 						do {
                 							texto = Funcoes.lerString();
                 						} while (texto.length() > 180);
-                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, texto, topicos, noticias);
+                						noticias = objetoServidor.InserirNoticia(topico, user.getNome(), publicacao, texto);
                                         Funcoes.escreverFicheiroNoticias(noticias);
                                         // callback para os utilizadores
                                         c.callback(topico);
                                         break;
                 					case 4:
                 						// consultar todas as noticias publicadas ate ao momento
-                						auxiliar = objetoServidor.ConsultarNoticias(user.getNome(), noticias);
+                						auxiliar = objetoServidor.ConsultarNoticias(user.getNome());
                 						// se o ArrayList auxiliar estiver vazio, nao ha noticias publicadas
                 						if (auxiliar == null) {
                 							System.out.println("O produtor ainda nao tem noticias publicadas.");
@@ -142,9 +139,9 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                 						// subscrever um topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
-                						subscricoes = objetoServidor.SubscreverTopico(topico, subscricoes);
+                						subscricoes = objetoServidor.SubscreverTopico(topico, user);
                                         user.setSubscricoes(subscricoes);
-                						utilizadores = Funcoes.setSubscricoesUtlizador(utilizadores, user);
+                						//utilizadores = Funcoes.setSubscricoesUtlizador(utilizadores, user);
                 						Funcoes.escreverFicheiroUtilizadores(utilizadores);
                 						break;
                 					case 2:
@@ -171,14 +168,14 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                                         // adicionar as datas a objetos do tipo Calendar
                                         inicio.set(anoInicio, mesInicio, diaInicio);
                                         fim.set(anoFim, mesFim, diaFim);
-                                        noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim, noticias);
+                                        noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim);
                                         System.out.println(noticiasTempo);
                                         break;
                 					case 3:
                 						// consultar ultima noticia de um dado topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
-                						ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                						ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico);
                                         // se o topico nao estiver preenchido, entao o objeto esta inicializado a null
                 						if (ultimaNoticia.getTopico().equals("")) {
                 							System.out.println("Ainda nao ha noticias subordinadas a esse topico.");
@@ -227,14 +224,14 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                                     // adicionar as datas a objetos do tipo Calendar
                                     inicio.set(anoInicio, mesInicio, diaInicio);
                                     fim.set(anoFim, mesFim, diaFim);
-                                    noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim, noticias);
+                                    noticiasTempo = objetoServidor.ConsultarNoticiasTopico(topico, inicio, fim);
                                     System.out.println(noticiasTempo);
                                     break;
                                 case 2:
                                 	// consultar ultima noticia de um dado tppico
                                     System.out.println("Introduza o topico: ");
                                     topico = Funcoes.lerString();
-                                    ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico, noticias);
+                                    ultimaNoticia = objetoServidor.ConsultarUltimaNoticia(topico);
                                     // se o topico nao estiver preenchido, entao o objeto esta inicializado a null
                                     if (ultimaNoticia.getTopico().equals("")) {
             							System.out.println("Ainda nao ha noticias subordinadas a esse topico.");

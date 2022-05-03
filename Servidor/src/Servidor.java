@@ -1,5 +1,5 @@
-import java.util.*;
-import java.rmi.*;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Servidor extends UnicastRemoteObject implements CallbackServidor {
@@ -16,6 +16,7 @@ public class Servidor extends UnicastRemoteObject implements CallbackServidor {
 		
 	@SuppressWarnings({ "removal", "deprecation" })
 	public static void main(String [] args) {
+		System.setProperty("java.security.policy","file:/C:\\Users\\sarak\\Downloads\\SD\\classes.policy");
 		// instalar um gestor de seguranca
     	System.setSecurityManager(new SecurityManager());
     	System.out.println("Servidor Principal a Inicializar\n");
