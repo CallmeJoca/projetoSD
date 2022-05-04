@@ -24,8 +24,6 @@ public class ImplementacaoBackup extends UnicastRemoteObject implements Interfac
 		super();
 	}
 
-
-
 	// criar um novo utilizador (aka registo)
 	public Utilizador criarUtilizador (Utilizador utilizador) throws RemoteException {
 		Utilizador aux = new Utilizador();
@@ -109,6 +107,21 @@ public class ImplementacaoBackup extends UnicastRemoteObject implements Interfac
 		topicos.add(topico);
 		// retornar mensagem de sucesso
 		return topicos;
+	}
+
+	public ArrayList <String> VerTopicos () throws RemoteException {
+		topicos = Funcoes.abrirFicheiroTopicos(topicos);
+		return topicos;
+	}
+
+	public boolean VerificarTopico (String topico) throws RemoteException {
+		// verificar se o topico existe no ficheiro de armazenamento de topicos
+		if(topicos.contains(topico) == false) {
+			System.out.println("Topico inexistente! Adicione-o primeiro.");
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, String texto) throws RemoteException {

@@ -12,6 +12,7 @@ public interface Interface extends Remote {
 	// metodos para o cliente Produtor
 	public ArrayList <String> AdicionarTopico (String topico) throws RemoteException;
 	public ArrayList <String> VerTopicos () throws RemoteException;
+	public boolean VerificarTopico (String topico) throws RemoteException;
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, String texto) throws RemoteException;
 	public ArrayList <Noticia> ConsultarNoticias (String produtor) throws RemoteException;
     

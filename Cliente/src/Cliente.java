@@ -81,11 +81,11 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                 						// topico
                 						System.out.println("Introduza o topico: ");
                 						topico = Funcoes.lerString();
-                						// se o topico nao existir nao ira conseguir adicionar a noticia
-                						if(topicos.contains(topico) == false) {
-                							System.out.println("Topico inexistente! Adicione-o primeiro.");
-                							break;
-                						}
+										// se o topico nao existir nao ira conseguir adicionar a noticia
+										if(objetoServidor.VerificarTopico(topico) == false) {
+											System.out.println("Topico inexistente! Adicione-o primeiro.");
+											break;
+										}
                 						// dia da publicacao
                 						System.out.println("Introduza o dia de publicacao: ");
                 						diaPublicacao = Funcoes.lerInteiro();
@@ -148,11 +148,11 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                 						// consultar noticias de um dado topico num intervalo de tempo
                                         System.out.println("Introduza o topico: ");
                                         topico = Funcoes.lerString();
-                                        // se o topico nao existir cancela a operacao
-                						if(topicos.contains(topico) == false) {
-                							System.out.println("Topico inexistente!");
-                							break;
-                						}
+										// se o topico nao existir nao ira conseguir visualizar noticias
+										if(objetoServidor.VerificarTopico(topico) == false) {
+											System.out.println("Topico inexistente.");
+											break;
+										}
                                         System.out.println("Introduza o dia da data inicial: ");
                                         diaInicio = Funcoes.lerInteiro();
                                         System.out.println("Introduza o mes da data inicial: ");
@@ -204,11 +204,11 @@ public class Cliente extends UnicastRemoteObject implements CallbackCliente {
                                 	// consultar noticias de um dado topico num intervalo de tempo
                                     System.out.println("Introduza o topico: ");
                                     topico = Funcoes.lerString();
-                                    // se o topico nao existir cancela a operacao
-            						if(topicos.contains(topico) == false) {
-            							System.out.println("Topico inexistente!");
-            							break;
-            						}
+									// se o topico nao existir nao ira conseguir visualizar noticias
+									if(objetoServidor.VerificarTopico(topico) == false) {
+										System.out.println("Topico inexistente.");
+										break;
+									}
                                     System.out.println("Introduza o dia da data inicial: ");
                                     diaInicio = Funcoes.lerInteiro();
                                     System.out.println("Introduza o mes da data inicial: ");

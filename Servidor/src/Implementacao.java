@@ -16,7 +16,6 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 	ArrayList <Utilizador> utilizadores = new ArrayList <Utilizador> ();
 	ArrayList <String> topicos = new ArrayList <String> ();
 	ArrayList <Noticia> noticias = new ArrayList <Noticia> ();
-	ArrayList <Noticia> auxiliar = new ArrayList <Noticia> ();
 	ArrayList <String> subscricoes = new ArrayList <String> ();
 
 	public Implementacao() throws RemoteException {
@@ -54,15 +53,8 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 		// adicionar o novo utilizador ao ArrayList
 		utilizadores.add(utilizador);
 
-		// atualizar o ficheiro que contem os registos dos utilizadores e fecha-lo
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(FICHEIRO_DE_UTILIZADORES));
-			oos.writeObject(utilizadores);
-			oos.flush();
-			oos.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		// atualizar o ficheiro que contem os registos dos utilizadores
+		Funcoes.escreverFicheiroUtilizadores(utilizadores);
 
 		return utilizador;
 	}
@@ -114,6 +106,16 @@ public class Implementacao extends UnicastRemoteObject implements Interface {
 	public ArrayList <String> VerTopicos () throws RemoteException {
 		topicos = Funcoes.abrirFicheiroTopicos(topicos);
 		return topicos;
+	}
+
+	public boolean VerificarTopico (String topico) throws RemoteException {
+		// verificar se o topico existe no ficheiro de armazenamento de topicos
+		if(topicos.contains(topico) == false) {
+			System.out.println("Topico inexistente! Adicione-o primeiro.");
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public ArrayList <Noticia> InserirNoticia (String topico, String produtor, Calendar publicacao, String texto) throws RemoteException {
